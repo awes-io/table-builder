@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Table-builder example</title>
+    
+    <script>
+        const AWES_CONFIG = {
+            key: '680a7d07f89b94e7fc83be657a2daa27'
+        }
+    </script>
+
+    <!-- table-builder -->
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- context-menu style -->
+    <link rel="stylesheet" href="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/context-menu/v0.x.x/css/main.css"></link>
+
+    <!-- core (from v 0.1.3) -->
+    <script src="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/js-core/v0.1.3/js/main.js"></script>
+</head>
+<body>
+    <div id="awes-app">
+        <table-builder store-data="table" row-url="http://company.local-awescrm.de:5051/managers">
+
+            <template slot="empty">
+                <p>You do not have projects Want to create the first one?</p>
+            </template>
+
+            <tb-column name="name">
+                <template slot-scope="d">
+                    <div class="ava-text">
+                        <span v-if="d.avatar" v-html="d.avatar"></span>
+                        <i v-else class="icon icon-user"></i>
+
+                        <span v-if="d.active">{{d.profile_manager.full_name}}</span>
+                        <strike v-else>{{d.profile_manager.full_name}}</strike>
+                    </div>
+                </template>
+            </tb-column>
+            <tb-column name="position" class-name="g-res--mobile-lg-i">
+                <template slot-scope="d">
+                    {{ d.profile_manager.position }}
+                </template>
+            </tb-column>
+            <tb-column name="phone" class-name="g-res--mobile-lg-i int-table__nowrap">
+                <template slot-scope="d">
+                    <a :href="'tel:' + $get(d.phones[0], 'phone_link')">{{ $get(d.phones[0], 'phone_formatted') }}</a>
+                </template>
+            </tb-column>
+            <tb-column name="email" class-name="g-res--desktop-md-i int-table__nowrap">
+                <template slot-scope="d">
+                    <a :href="'mailto:' + d.email">{{ d.email }}</a>
+                </template>
+            </tb-column>
+
+            <tb-mobile>
+                <template slot-scope="d">
+                    <ul class="int-table__clist">
+                        <li class="g-res--mobile-lg"><span class="int-table__caption int-table__caption_block">Abteilungsleiterin</span>
+                        </li>
+                        <li class="g-res--mobile-lg"><a href="tel:+4921122980170">+49 211 22980170 </a></li>
+                        <li><a href="">mw@tca-certification.com</a></li>
+                    </ul>
+                </template>
+            </tb-mobile>
+        </table-builder>
+        <paginate-builder
+            ref="pb"
+            url="/test-data.json"
+            store-data="table"
+            :data="false"
+        >
+        </paginate-builder>
+    </div>
+</body>
+</html>

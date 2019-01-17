@@ -1,0 +1,62 @@
+@import './_variables'
+@import './_framework'
+
+.int-table
+    
+    &__table
+        width: 100%
+        border-collapse: collapse
+    
+    thead td,
+    thead th
+        padding: .5em
+        text-align: left
+    
+    &__block td
+        padding: .5em
+        border-bottom: 1px solid
+
+    & &__nowrap
+        white-space nowrap
+
+    &__hidden
+        display: none
+
+    &__controll-tab
+        min-width: 2em
+
+    & &__show
+        display none
+        size 60px
+        text-decoration: none
+        
+        > i:before
+            content: '▼'
+
+.pager
+    margin-top 30px
+    fl(,sb,c)
+
+@media res_desktop--lg
+    .int-table
+
+        & &__controll-tab
+            width 40px
+
+
+@media res_desktop--md
+    .int-table
+
+        & &__show
+            fl(,c,c)
+
+        & .active + &__hidden
+            display table-row
+
+            td
+                border-bottom: 1px solid
+
+        & &__block
+            &.active
+                td
+                    border-bottom 0

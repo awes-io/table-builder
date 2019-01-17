@@ -1,0 +1,65 @@
+{
+    "name": "table-builder",
+    "version": "0.1.0",
+    "description": "Dynamic tables with pagination and sorting for data visualization",
+    "main": "dist/js/main.js",
+    "module": "src/js/plugin.js",
+    "scripts": {
+        "start": "npm run watch",
+        "watch": "cross-env NODE_ENV=development BROWSERSLIST_ENV=modern gulp",
+        "watch:legacy": "cross-env NODE_ENV=development BROWSERSLIST_ENV=legacy gulp",
+        "build": "npm run build:modern && npm run build:legacy",
+        "build:modern": "cross-env NODE_ENV=production cross-env BROWSERSLIST_ENV=modern gulp",
+        "build:legacy": "cross-env NODE_ENV=production cross-env BROWSERSLIST_ENV=legacy rollup -c"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@gitlab.awescode.com:awes-io/table-builder.git"
+    },
+    "keywords": [
+        "modal"
+    ],
+    "files": [
+        "dist/css/main.css",
+        "dist/js/main.js",
+        "dist/js/main.legacy.js"
+    ],
+    "awes-files": [
+        "css/main.css",
+        "js/main.js",
+        "js/main.legacy.js"
+    ],
+    "author": "AwesCode (https://www.awescode.de/)",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/core": "^7.2.2",
+        "@babel/preset-env": "^7.2.3",
+        "autoprefixer": "^9.4.2",
+        "browser-sync": "^2.26.3",
+        "core-js": "^2.6.2",
+        "cross-env": "^5.2.0",
+        "cssnano": "^4.1.7",
+        "gulp": "^4.0.0",
+        "gulp-clean": "^0.4.0",
+        "gulp-noop": "^1.0.0",
+        "gulp-plumber": "^1.2.1",
+        "gulp-postcss": "^8.0.0",
+        "gulp-rollup": "^2.16.2",
+        "gulp-sourcemaps": "^2.6.4",
+        "gulp-stylus": "^2.7.0",
+        "nib": "^1.1.2",
+        "postcss-import": "^12.0.1",
+        "rollup": "^0.68.2",
+        "rollup-plugin-babel": "^4.1.0",
+        "rollup-plugin-commonjs": "^9.2.0",
+        "rollup-plugin-includepaths": "^0.2.3",
+        "rollup-plugin-json": "^3.1.0",
+        "rollup-plugin-license": "^0.7.0",
+        "rollup-plugin-node-resolve": "^4.0.0",
+        "rollup-plugin-postcss": "^1.6.3",
+        "rollup-plugin-uglify-es": "0.0.1",
+        "rollup-plugin-vue": "^4.3.2",
+        "stylus": "^0.54.5",
+        "vue-template-compiler": "^2.5.21"
+    }
+}
