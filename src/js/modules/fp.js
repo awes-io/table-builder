@@ -1,7 +1,7 @@
 export const compare = (obj1, obj2, exclude) => {
     return _.isEqual(
-        _.omit(exclude, obj1),
-        _.omit(exclude, obj2)
+        _.omit(obj1, exclude),
+        _.omit(obj2, exclude)
     );
 };
 
