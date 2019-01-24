@@ -140,8 +140,8 @@
             fetchData(params) {
                 AWES.on('core:ajax', this.setLoader)
                 AWES.ajax(params, this.url, 'get')
-                    .then( data => {
-                        this.serverData = data
+                    .then( res => {
+                        this.serverData = res.data
                     })
                     .catch( e => {
                         console.log(e);
