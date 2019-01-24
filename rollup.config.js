@@ -1,17 +1,17 @@
 const isDev = process.env.NODE_ENV === 'development'
 const isModern = process.env.BROWSERSLIST_ENV === 'modern'
 
-const vuePlugin = require('rollup-plugin-vue')
-const uglifyPlugin = require('rollup-plugin-uglify-es')
-const nodeResolvePlugin = require('rollup-plugin-node-resolve')
-const jsonPlugin = require('rollup-plugin-json')
-const commonJsPlugin = require('rollup-plugin-commonjs')
-const babelPlugin = require('rollup-plugin-babel')
-const licensePlugin = require('rollup-plugin-license')
-const postcssPlugin = require('rollup-plugin-postcss')
+const vue = require('rollup-plugin-vue')
+const uglify = require('rollup-plugin-terser').terser
+const nodeResolve = require('rollup-plugin-node-resolve')
+const json = require('rollup-plugin-json')
+const commonJs = require('rollup-plugin-commonjs')
+const babel = require('rollup-plugin-babel')
+const license = require('rollup-plugin-license')
+const postcss = require('rollup-plugin-postcss')
 
 module.exports = {
-    input: './src/js/main.js',
+    input: './resources/js/main.js',
     external: ['vue'],
     output: {
         file: isModern ? './dist/js/main.js' : './dist/js/main.legacy.js',
@@ -21,22 +21,22 @@ module.exports = {
         },
     },
     plugins: [
-        vuePlugin(),
-        commonJsPlugin({
+        vue(),
+        commonJs({
             include: 'node_modules/**'
         }),
-        nodeResolvePlugin({
+        nodeResolve({
             jsnext: true,
             main: true
         }),
-        jsonPlugin(),
-        postcssPlugin()
+        json(),
+        postcss()
     ]
 }
 
 if ( ! isModern ) {
     module.exports.plugins.push( 
-        babelPlugin({
+        babel({
             exclude: 'node_modules/**'
         })
     )
@@ -44,8 +44,8 @@ if ( ! isModern ) {
 
 if ( ! isDev ) {
     module.exports.plugins = module.exports.plugins.concat([
-        uglifyPlugin(),
-        licensePlugin({
+        uglify(),
+        license({
             banner: "Bundle of AWES <%= pkg.name %> " + (isModern ? '' : 'transpiled and polyfilled') + " \n Generated: <%= moment().format('YYYY-MM-DD') %> \n Version: <%= pkg.version %>"
         })
     ])
