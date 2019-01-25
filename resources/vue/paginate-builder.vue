@@ -30,6 +30,7 @@
 
 <script>
     import { compare } from '../js/modules/fp.js'
+    import config from '../js/modules/config.js'
 
     export default {
         name: 'paginate-builder',
@@ -45,6 +46,12 @@
             'storeData': {
                 type: String,
                 require: true
+            },
+            scrollTo: {
+                type: [String, Boolean],
+                default() {
+                    return this._config.scrollTo
+                }
             }
         },
         data() {
@@ -115,6 +122,9 @@
                 pagesArray.push(this.meta.last_page);
                 //Отдаем массив
                 return pagesArray;
+            },
+            scrollElement() {
+                return this.scrollTo && this._isMounted && document.querySelector(this.scrollTo)
             }
         },
         watch: {
@@ -142,6 +152,7 @@
                 AWES.ajax(params, this.url, 'get')
                     .then( res => {
                         this.serverData = res.data
+                        this.scrollElement && this.$SmoothScroll(this.scrollElement, this._config.scrollDuration)
                     })
                     .catch( e => {
                         console.log(e);
@@ -168,10 +179,14 @@
             }
         },
         beforeCreate() {
+            // router
             this._routerRoot = this
             this._router = AWES._vueRouter
             this._router.init(this)
             Vue.util.defineReactive(this, '_route', this._router.history.current)
+
+            // config
+            this._config = Object.assign(config, _.pick(AWES._config.tableBuilder, Object.keys(config)))
         }
     }
 </script>
