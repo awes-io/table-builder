@@ -17,6 +17,13 @@ const awesPlugin = {
                 AWES._vueRouter = AWES._vueRouter || new VueRouter({ mode: 'history' })
             }
         },
+        'vue-smoothscroll': {
+            src: 'https://unpkg.com/vue-smoothscroll@0.2.0/dist/vue-smoothscroll.js',
+            deps: ['vue'],
+            cb() {
+                Vue.use(VueSmoothScroll)
+            }
+        },
         'lodash': {
             src: 'https://unpkg.com/lodash@4.17.11/lodash.min.js',
             deps: ['vue'],
