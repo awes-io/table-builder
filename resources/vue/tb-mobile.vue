@@ -1,3 +1,10 @@
+<template>
+    <pre>
+        {{ mobileOptions.data }}
+    </pre>
+</template>
+
+
 <script>
     export default {
         name: 'tb-mobile',
@@ -15,10 +22,10 @@
                 default: 1
             }
         },
-        render(h) {
-            return h('tr', {attrs:{class:'int-table__hidden'}}, [
-                h('td', {attrs: {colspan:this.countRows+1}}, this.mobileOptions.data.scopedSlots.default(this.data))
-            ]);
-        }
+        // render(h) {
+        //     return h('tr', {attrs:{class:'int-table__hidden'}}, [
+        //         h('td', {attrs: {colspan:this.countRows+1}}, this.mobileOptions.data.scopedSlots.default(this.data))
+        //     ]);
+        // }
     }
 </script>

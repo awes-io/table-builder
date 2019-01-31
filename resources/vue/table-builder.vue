@@ -10,7 +10,7 @@
             },
             'storeData': {
                 type: String,
-                require: true
+                required: true
             },
             rowUrl: {
                 type: String,

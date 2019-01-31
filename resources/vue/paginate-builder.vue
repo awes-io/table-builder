@@ -5,7 +5,7 @@
             <div class="pager__links">
                 <a class="pager__arr-left" href="" @click.prevent="setPage(meta.current_page-1)"><i class="icon icon-arrow-left"></i></a>
                 <div class="pager__links-wrap">
-                    <span v-for="p in paginate">
+                    <span v-for="(p, i) in paginate" :key="i">
                         <a v-if="p" class="pager__link" href="" @click.prevent="setPage(p)" :class="{ 'pager__link_active': p === meta.current_page }">{{ p }}</a>
                         <span v-else class="pager__spacer">...</span>
                     </span>
@@ -41,11 +41,11 @@
             },
             url: {
                 type: String,
-                require: true
+                required: true
             },
             'storeData': {
                 type: String,
-                require: true
+                required: true
             },
             scrollTo: {
                 type: [String, Boolean],
