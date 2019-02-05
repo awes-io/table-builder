@@ -2,65 +2,67 @@ flex-version = flex
 support-for-ie = false
 vendor-prefixes = official
 
-@import './_variables'
-@import './_framework'
-
 .int-table
 
     &__table
         width: 100%
         border-collapse: collapse
 
-    thead td,
-    thead th
-        padding: .5em
-        text-align: left
+        thead td,
+        thead th
+            padding: .5em
+            text-align: left
 
-    &__block td
-        padding: .5em
-        border-bottom: 1px solid
+        tbody td
+            padding: .5em
+            border-bottom: 1px solid
+
+    &__no-data
+        display: flex
+        min-height: 70vh
+        align-items: center
+        justify-content: center
+
+    & &__block
+        &.active
+            td
+                border-bottom: none
 
     & &__nowrap
-        white-space nowrap
+        white-space: nowrap
 
-    &__hidden
-        display: none
-
-    &__controll-tab
-        min-width: 2em
+    &__control-tab
+        text-align: center
+        width: 40px
 
     & &__show
-        display none
-        size 60px
+        border: 1px solid currentColor
+        padding: 5px
         text-decoration: none
 
         > i:before
             content: '▼'
 
+    &__list
+        margin: auto
+        max-width: 600px
+
+        &-row
+            border-bottom: 1px solid currentColor
+            padding: 1em
+            margin-bottom: 1em
+
+        &-cell
+            margin-bottom: .5em
+            display: flex
+            flex-wrap: wrap
+            justify-content: space-between
+
+        &-name
+            text-transform: capitalize
+
 .pager
-    margin-top 30px
-    fl(,sb,c)
-
-@media res_desktop--lg
-    .int-table
-
-        & &__controll-tab
-            width 40px
-
-
-@media res_desktop--md
-    .int-table
-
-        & &__show
-            fl(,c,c)
-
-        & .active + &__hidden
-            display table-row
-
-            td
-                border-bottom: 1px solid
-
-        & &__block
-            &.active
-                td
-                    border-bottom 0
+    margin-top: 30px
+    display: flex
+    align-items: center
+    justify-content: space-between

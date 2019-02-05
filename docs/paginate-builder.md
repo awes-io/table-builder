@@ -20,6 +20,27 @@
 
 ## <a name="pb-options"></a> Свойства компонента
 
+| Название           | Тип             | По-умолчанию      | Описание                                     |
+|--------------------|:---------------:|:-----------------:|----------------------------------------------|
+| **store-data (*)** | `String`        | `undefined`       | Идентификатор данных в хранилище             |
+| **store-name**     | `String`        | `'$tableBuilder'` | Расположение хранилища с данными             |
+| **default**        | `Array, Object` | `undefined`       | Данные пагинации + данные для отображения    |
+| **url (*)**        | `String`        | `undefined`       | Адрес для запроса данных                     |
+| **scroll-to**      | `String`        | `'body'`          | Элемент, к которому скроллить после перехода |
+
+### Формат данных для пагинации
+
+```json
+{
+    "current_page": 1,
+    "data": [],
+    "from": 1,
+    "per_page": 15,
+    "to": 12,
+    "total": 12
+}
+```
+
 
 ## <a name="pb-events"></a> События компонента
 
@@ -37,7 +58,7 @@
         const AWES_CONFIG = {
             key: 'YOUR API KEY',
             tableBuilder: {
-                scrollTo: '#frame__content', // CSS-селектор, используется в document.QuerySelector
+                scrollTo: '#frame__content', // CSS-селектор, используется в document.querySelector
                 scrollDuration: 300 // миллисекунды, настраивается только глобально для всех таблиц
             }
         }
