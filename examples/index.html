@@ -31,50 +31,55 @@
             </template>
 
             <tb-column name="name">
-                <template slot-scope="d">
+                <template slot-scope="col">
                     <div class="ava-text">
-                        <span v-if="d.avatar" v-html="d.avatar"></span>
+                        <span v-if="col.data.avatar" v-html="col.data.avatar"></span>
                         <i v-else class="icon icon-user"></i>
 
-                        <span v-if="d.active">{{d.profile_manager.full_name}}</span>
-                        <strike v-else>{{d.profile_manager.full_name}}</strike>
+                        <span v-if="col.data.active">{{ $get(col.data, 'profile_manager.full_name') }}</span>
+                        <strike v-else>{{ $get(col.data, 'profile_manager.full_name') }}</strike>
                     </div>
                 </template>
             </tb-column>
-            <tb-column name="position" class-name="g-res--mobile-lg-i">
-                <template slot-scope="d">
-                    {{ d.profile_manager.position }}
+            <tb-column name="position">
+                <template slot-scope="col">
+                    {{ col.data.profile_manager.position }}
                 </template>
             </tb-column>
-            <tb-column name="phone" class-name="g-res--mobile-lg-i int-table__nowrap">
-                <template slot-scope="d">
-                    <a :href="'tel:' + $get(d.phones[0], 'phone_link')">{{ $get(d.phones[0], 'phone_formatted') }}</a>
+            <tb-column name="phone" class="int-table__nowrap" media="tablet, desktop">
+                <template slot-scope="col">
+                    <a :href="'tel:' + $get(col.data.phones[0], 'phone_link')">
+                        {{ $get(col.data.phones[0], 'phone_formatted') }}
+                    </a>
                 </template>
             </tb-column>
-            <tb-column name="email" class-name="g-res--desktop-md-i int-table__nowrap">
-                <template slot-scope="d">
-                    <a :href="'mailto:' + d.email">{{ d.email }}</a>
+            <tb-column name="email" class="int-table__nowrap" media="desktop">
+                <template slot-scope="col">
+                    <a :href="'mailto:' + col.data.email">{{ col.data.email }}</a>
                 </template>
             </tb-column>
 
-            <tb-mobile>
-                <template slot-scope="d">
-                    <ul class="int-table__clist">
-                        <li class="g-res--mobile-lg"><span class="int-table__caption int-table__caption_block">Abteilungsleiterin</span>
-                        </li>
-                        <li class="g-res--mobile-lg"><a href="tel:+4921122980170">+49 211 22980170 </a></li>
-                        <li><a href="">mw@tca-certification.com</a></li>
-                    </ul>
-                </template>
-            </tb-mobile>
+            <template slot="hidden" slot-scope="h">
+                <ul>
+                    <li v-if="h.matchedMedia.includes('mobile')">
+                        <strong>{{ h.rowData.profile_manager.position }}</strong>
+                    </li>
+                    <li v-if="h.rowData.phones.length">
+                        <a :href="'tel:' + h.rowData.phones[0].phone_link">
+                            {{ h.rowData.phones[0].phone_formatted }}
+                        </a>
+                    </li>
+                    <li><a :href="'mailto:' + h.data.email">{{ h.data.email }}</a></li>
+                </ul>
+            </template>
         </table-builder>
+
         <paginate-builder
             ref="pb"
             url="/test-data.json"
             store-data="table"
-            :data="false"
-        >
-        </paginate-builder>
+            :default="false"
+        ></paginate-builder>
     </div>
 </body>
 </html>

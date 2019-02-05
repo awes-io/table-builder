@@ -1,5 +1,6 @@
 import store from './modules/store.js'
 import plugin from './plugin.js'
+import lang from './modules/lang.js'
 
 const awesPlugin = {
 
@@ -44,7 +45,7 @@ const awesPlugin = {
     },
 
     install() {
-        // AWES.lang = i18n
+        AWES.lang = lang
     }
 }
 

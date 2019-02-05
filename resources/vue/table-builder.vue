@@ -1,131 +1,217 @@
+<template>
+    <div class="int-table">
+
+
+        <!-- no data -->
+        <div class="int-table__no-data" v-if="! tableData">
+            <slot name="empty">
+                {{ $lang.TABLE_NO_DATA }}
+            </slot>
+        </div>
+
+
+        <!-- no columns -> show as list -->
+        <div class="int-table__list"
+            v-if="tableData && ! hasColumns"
+        >
+            <div class="int-table__list-row"
+                v-for="(row, i) in tableData"
+                :key="i"
+            >
+                <slot
+                    name="list"
+                    :tableData="tableData"
+                    :data="row"
+                    :index="i"
+                >
+                    <template v-if="typeof row === 'object'">
+                        <div class="int-table__list-cell"
+                            v-for="(item, key) in row"
+                            :key="key"
+                        >
+                            <span class="int-table__list-name">{{ key }} : </span>
+                            <span class="int-table__list-value">{{item}}</span>
+                        </div>
+                    </template>
+                    <template v-else>
+                        {{ row }}
+                    </template>
+                </slot>
+            </div>
+        </div>
+
+
+        <!-- table -->
+        <table
+            v-if="tableData && hasColumns"
+            class="int-table__table"
+        >
+            <thead>
+                <tr>
+                    <th v-for="(name, i) in columnNames" :key="i">{{ name }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template v-for="(rowData, i) in tableData">
+                    <tb-row
+                        :key="i + '-row'"
+                        :tableOptions="shownOptions"
+                        :data="rowData"
+                        :index="i"
+                        :active="activeItem === i"
+                        :url="rowUrl"
+                        :matchedMedia="matchedMedia"
+                        :showToggler="!!hiddenColumnData"
+                        @setActive="setActiveItem"
+                    ></tb-row>
+                    <tr class="int-table__hidden"
+                        v-if="hiddenColumnData"
+                        v-show="activeItem === i"
+                        :key="i + '-hidden-row'">
+                        <td :colspan="shownOptions.length + 1">
+                            <slot
+                                name="hidden"
+                                :rowData="rowData"
+                                :data="hiddenColumnData[i]"
+                                :matchedMedia="matchedMedia"
+                                :index="i"
+                            >
+                                <ul>
+                                    <li v-for="(option, j) in hiddenColumnData[i]" :key="j + '-hidden'">
+                                        {{ option }}
+                                    </li>
+                                </ul>
+                            </slot>
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+
+    </div>
+</template>
+
 <script>
-    import { ucFirst } from '../js/modules/fp.js'
+import { ucFirst } from '../js/modules/fp.js'
+import mediaQueries from '../js/mixins/media-queries.js'
 
-    export default {
-        name: 'table-builder',
-        props: {
-            data: {
-                type: [Object, Array],
-                default: function () { return [] }
-            },
-            'storeData': {
-                type: String,
-                required: true
-            },
-            rowUrl: {
-                type: String,
-                default: null
-            }
+export default {
+
+    name: 'table-builder',
+
+    mixins: [ mediaQueries ],
+
+
+    props: {
+
+        storeData: {
+            type: String,
+            required: true
         },
-        computed: {
-            table() {
-                this.reset();
-                return this.$tableBuilder.state[this.storeData]
-            }
+
+        storeName: {
+            type: String,
+            default: '$tableBuilder'
         },
-        created() {
-            this.$tableBuilder.commit('setData', {
-                param: this.storeData,
-                data: this.data
-            });
+
+        default: [Array, Object],
+
+        rowUrl: String
+    },
+
+
+    data() {
+        return {
+            activeItem: null
+        }
+    },
+
+
+    computed: {
+
+        tableData() {
+            return this[this.storeName].state[this.storeData]
         },
-        data() {
-            return {
-                ColumnParam: 'name',
-                //Table helper component name
-                HelperComponent: 'tb-column',
-                MobileHelperComponent: 'tb-mobile',
-                activeItem: null
-            }
+
+        columns() {
+            return this.$slots.default && this.$slots.default.filter( item => {
+                return item.componentOptions && item.componentOptions.tag === 'tb-column'
+            })
         },
-        methods: {
-            setActiveItem(index, val) {
-                if (val) {
-                    this.activeItem = index;
-                } else {
-                    this.reset();
-                }
-            },
-            reset() {
-                this.activeItem = null;
-            }
+
+        hasColumns() {
+            return this.columns && !! this.columns.length
         },
-        render(h) {
 
-            if (!this.table.length) {
-
-                if (this.$slots.empty) {
-                    return h('div', {attrs: {class: 'tf-centerblock'}}, [
-                        h('div', {attrs: {class: 'tf-centerblock__cell'}}, [
-                            h('div', {attrs: {class: 'tf-infoblock tf-infoblock_center tf-infoblock_smart'}}, this.$slots.empty)
-                        ])
-                    ])
-                }
-                return h('div', '');
-
-            }
-
-            //Вывод в виде обычного списка
-            if (this.$scopedSlots.default) {
-                return h('div', this.table.map(data => {
-                        return h('div', this.$scopedSlots.default(data));
-                    })
-                );
-            }
-
-            //Формируем заголовки таблиц и шаблоны колонок
-            const tableOptions = this.$slots.default.filter(item => {
-                return ( item.componentOptions && item.componentOptions.tag === this.HelperComponent )
-            }).map(item => {
+        tableOptions() {
+            return this.columns.map(item => {
                 return Object.assign({}, item.componentOptions.propsData, {
-                    scopedSlots: (item.data.scopedSlots && item.data.scopedSlots.default) ? item.data.scopedSlots.default : null
+                    className: item.data.staticClass,
+                    scopedSlots: item.data.scopedSlots && item.data.scopedSlots.default ?
+                                 item.data.scopedSlots.default :
+                                 null
                 });
             });
+        },
 
-            let mobileOptions = undefined;
-            this.$slots.default.some(item => {
-                return ( item.componentOptions && item.componentOptions.tag === this.MobileHelperComponent )
-                    ? ((mobileOptions = item), true) : false;
-            });
+        shownOptions() {
+            return this.tableOptions && this.tableOptions.filter( item => {
+                if ( ! item.media || item.media && this._checkMediaMatch(item.media) ) return true
+            })
+        },
 
-            return h('div', {attrs: {class: 'int-table'}}, [
-                h('table', {attrs: {class: 'int-table__table'}}, [
-                    h('thead', [
-                        //Выводим заголовки таблицы
-                        h('tr', [
-                            tableOptions.map(item => {
-                                return h('th',  {class: [item.className]}, ucFirst(item[this.ColumnParam]))
-                            }),
-                            h('th')
-                        ])
-                    ]),
-                    h('tbody',
-                        //Проходим по данным таблицы
-                        this.table.map( (data, index) => {
-                            let tbRow = h('tb-row', {
-                                    props: {
-                                        tableOptions: tableOptions,
-                                        data: data,
-                                        index: index,
-                                        active: (this.activeItem === index),
-                                        url: this.rowUrl
-                                    },
-                                    on: {
-                                        setActive: this.setActiveItem
-                                    }
-                                }
-                            );
-                            let tbMobile = h('tb-mobile', {
-                                props: {
-                                    mobileOptions: mobileOptions,
-                                    countRows: tableOptions.length
-                                }
-                            });
-                            return [tbRow, tbMobile];
-                        })
-                    )
-                ])
-            ]);//End render
-        }
+        hiddenOptions() {
+            return this.tableOptions && this.tableOptions.filter( item => {
+                if ( item.media && ! this._checkMediaMatch(item.media) ) return true
+            }).map( item => item.name )
+        },
+
+        hiddenColumnData() {
+            if ( ! this.hiddenOptions || ! this.hiddenOptions.length ) return false
+            return this.tableData.map( row => {
+                let hiddenData = {}
+                Object.keys(row)
+                      .filter( key => this.hiddenOptions.includes(key) )
+                      .forEach( key => { hiddenData[key] = row[key] })
+                return hiddenData
+            })
+        },
+
+        columnNames() {
+            return this.shownOptions.map( item => {
+                return ucFirst( typeof item.label !== 'undefined' ?
+                                       item.label :
+                                       item.name )
+            })
+        },
+    },
+
+
+    methods: {
+
+        setActiveItem(index, val) {
+            if (val) {
+                this.activeItem = index;
+            } else {
+                this.activeItem = null
+            }
+        },
+    },
+
+
+    beforeCreate() {
+
+        let dafault = this.$options.propsData.default
+        if ( ! dafault ) return;
+
+        let defaultData = Array.isArray(dafault) ?
+                          dafault.slice() :
+                          [ Object.assign({}, this.$options.propsData.default) ]
+        let storeName = this.$options.propsData.storeName || this.$options.props.storeName.default
+        this[storeName].commit('setData', {
+            param: this.$options.propsData.storeData,
+            data: defaultData
+        })
     }
+}
 </script>
