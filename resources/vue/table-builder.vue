@@ -167,7 +167,7 @@ export default {
         },
 
         hiddenColumnData() {
-            if ( ! this.hiddenOptions || ! this.hiddenOptions.length ) return false
+            if ( ! this.hiddenOptions || ! this.hiddenOptions.length || ! this.tableData ) return false
             return this.tableData.map( row => {
                 let hiddenData = {}
                 Object.keys(row)
@@ -184,6 +184,14 @@ export default {
                                        item.name )
             })
         },
+    },
+
+
+    watch: {
+
+        hiddenColumnData( data ) {
+            if ( data === false ) this.activeItem = null
+        }
     },
 
 
