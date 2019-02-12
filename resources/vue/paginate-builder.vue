@@ -89,12 +89,12 @@ export default {
     computed: {
 
         meta() {
-            return _.omit(this.serverData, 'data')
+            let data = this.serverData.data
+            return data && data.length ? _.omit(this.serverData, 'data') : false
         },
 
         paginate: function() {
             if ( ! this.meta ) return null;
-
             let offset = 2;
             //Если выводится одна страница, то нумерацию не показываем
             if (this.meta.last_page < 2) {
