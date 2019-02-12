@@ -1,0 +1,14 @@
+{
+    "current_page": 1,
+    "data": [],
+    "first_page_url": "https:\/\/local.awes.io\/example-package?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "https:\/\/local.awes.io\/example-package?page=1",
+    "next_page_url": null,
+    "path": "https:\/\/local.awes.io\/example-package",
+    "per_page": 15,
+    "prev_page_url": null,
+    "to": 12,
+    "total": 12
+}

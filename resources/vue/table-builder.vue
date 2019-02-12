@@ -109,11 +109,6 @@ export default {
             required: true
         },
 
-        storeName: {
-            type: String,
-            default: '$tableBuilder'
-        },
-
         default: [Array, Object],
 
         rowUrl: String
@@ -130,7 +125,8 @@ export default {
     computed: {
 
         tableData() {
-            return this[this.storeName].state[this.storeData]
+            let fromStore = AWES._store.state[this.storeData]
+            return fromStore && fromStore.length ? fromStore : false
         },
 
         columns() {
@@ -215,8 +211,7 @@ export default {
         let defaultData = Array.isArray(dafault) ?
                           dafault.slice() :
                           [ Object.assign({}, this.$options.propsData.default) ]
-        let storeName = this.$options.propsData.storeName || this.$options.props.storeName.default
-        this[storeName].commit('setData', {
+        AWES._store.commit('setData', {
             param: this.$options.propsData.storeData,
             data: defaultData
         })
