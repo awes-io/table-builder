@@ -20,11 +20,11 @@
     <link rel="stylesheet" href="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/context-menu/v0.x.x/css/main.css"></link>
 
     <!-- core (from v 0.1.6) -->
-    <script src="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/js-core/v0.x.x/js/main.js"></script>
+    <script src="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/base-js/v1.x.x/js/main.js"></script>
 </head>
 <body>
     <div id="awes-app">
-        <table-builder store-data="table" row-url="http://company.local-awescrm.de:5051/managers">
+        <table-builder store-data="table" ><!-- row-url="http://company.local-awescrm.de:5051/managers" -->
 
             <template slot="empty">
                 <p>You do not have projects Want to create the first one?</p>
@@ -76,7 +76,7 @@
 
         <paginate-builder
             ref="pb"
-            url="/empty.json"
+            url="/test-data.json"
             store-data="table"
             :default="false"
         ></paginate-builder>
