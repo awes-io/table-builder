@@ -70,11 +70,6 @@ export default {
             required: true
         },
 
-        storeName: {
-            type: String,
-            default: '$tableBuilder'
-        },
-
         scrollTo: {
             type: [String, Boolean],
             default() {
@@ -153,7 +148,7 @@ export default {
         '$route': 'updateData',
 
         serverData: function () {
-            this[this.storeName].commit('setData', {
+            AWES._store.commit('setData', {
                 param: this.storeData,
                 data: this.serverData.data
             });
@@ -189,7 +184,7 @@ export default {
         },
 
         setLoader($event) {
-            this[this.storeName].commit('setData', {
+            AWES._store.commit('setData', {
                 param: this.storeData + '_state',
                 data: $event.detail
             });
