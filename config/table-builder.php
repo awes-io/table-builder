@@ -3,9 +3,9 @@
 return [
 
     'src' => [
-        'script' => 'awes-io/table-builder/v0.x.x/js/main.js',
+        'script' => 'awes-io/table-builder/v1.x.x/js/main.js',
         'script_legacy' => 'awes-io/table-builder/v0.x.x/js/main.legacy.js',
-        'style' => 'awes-io/table-builder/v0.x.x/css/main.css'
+        'style' => 'awes-io/table-builder/v1.x.x/css/main.css'
     ],
 
     'local' => [
