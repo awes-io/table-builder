@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Table with form and modal</title>
+
+    <script>
+        const AWES_CONFIG = {
+            key: '680a7d07f89b94e7fc83be657a2daa27'
+        }
+    </script>
+
+    <!-- table-builder -->
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- context-menu style -->
+    <link rel="stylesheet" href="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/context-menu/v0.x.x/css/main.css">
+
+    <!-- form-builder -->
+    <script src="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/form-builder/v1.x.x/js/main.js"></script>
+    <link rel="stylesheet" href="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/form-builder/v0.x.x/css/main.css">
+
+    <!-- modal -->
+    <script src="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/modal/v1.x.x/js/main.js"></script>
+    <link rel="stylesheet" href="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/modal/v0.x.x/css/main.css">
+
+    <!-- core (from v 0.1.6) -->
+    <script src="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/base-js/v1.x.x/js/main.js"></script>
+</head>
+<body>
+    <div id="awes-app">
+        <table-builder store-data="table">
+
+            <template slot="empty">
+                <p>You do not have projects Want to create the first one?</p>
+            </template>
+
+            <tb-column name="name">
+                <template slot-scope="col">
+                    <span>{{ $get(col.data, 'profile_manager.full_name') }}</span>
+                </template>
+            </tb-column>
+            <tb-column name="position">
+                <template slot-scope="col">
+                    {{ col.data.profile_manager.position }}
+                </template>
+            </tb-column>
+            <tb-column name="edit">
+                <template slot-scope="col">
+                    <button @click="AWES._store.commit('setData', {param: 'editForm', data: col.data}); AWES.emit('modal::edit-modal.open')">
+                        Edit {{ $get(col.data, 'profile_manager.first_name') }}
+                    </button>
+                </template>
+            </tb-column>
+
+        </table-builder>
+
+        <paginate-builder url="/test-data.json" store-data="table" :default="false"></paginate-builder>
+
+        <modal-window name="edit-modal">
+            <form-builder url="//httpbin.org/post" store-data="editForm">
+                <fb-input name="profile_manager.first_name" label="First name"></fb-input>
+                <fb-input name="profile_manager.last_name" label="Last name"></fb-input>
+                <fb-multi-block name="phones">
+                    <template slot-scope="block">
+                        <fb-input name="phone" :id="block.id" :label="'Phone ' + (block.id + 1)"></fb-input>
+                    </template>
+                </fb-multi-block>
+            </form-builder>
+        </modal-window>
+    </div>
+</body>
+</html>

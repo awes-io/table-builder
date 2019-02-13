@@ -89,8 +89,7 @@ export default {
     computed: {
 
         meta() {
-            let data = this.serverData.data
-            return data && data.length ? _.omit(this.serverData, 'data') : false
+            return this.serverData ? this.serverData.meta : false
         },
 
         paginate: function() {

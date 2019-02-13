@@ -35,7 +35,7 @@ module.exports = {
 }
 
 if ( ! isModern ) {
-    module.exports.plugins.push( 
+    module.exports.plugins.push(
         babel({
             exclude: 'node_modules/**'
         })
@@ -46,7 +46,7 @@ if ( ! isDev ) {
     module.exports.plugins = module.exports.plugins.concat([
         uglify(),
         license({
-            banner: "Bundle of AWES <%= pkg.name %> " + (isModern ? '' : 'transpiled and polyfilled') + " \n Generated: <%= moment().format('YYYY-MM-DD') %> \n Version: <%= pkg.version %>"
+            banner: "Bundle of AWES <%= pkg.name %> " + (isModern ? '' : 'transpiled and polyfilled') + " \n Generated: <%= moment().format('YYYY-MM-DD HH:mm:ss') %> \n Version: <%= pkg.version %>"
         })
     ])
 }
