@@ -1,6 +1,6 @@
 # Компонент &lt;table-builder&gt;
 
-Компонент динамических таблиц. Регистрирует хранилище `Vuex` в переменной `Vue.prototype.$tableBuilder`
+Компонент динамических таблиц. Использует хранилище `Vuex` в переменной `AWES._store`
 
 ![table-builder](https://storage.googleapis.com/static.awes.io/docs/table-builder.gif)
 
@@ -25,7 +25,6 @@
 | Название           | Тип             | По-умолчанию      | Описание                                     |
 |--------------------|:---------------:|:-----------------:|----------------------------------------------|
 | **store-data (*)** | `String`        | `undefined`       | Идентификатор данных в хранилище             |
-| **store-name**     | `String`        | `'$tableBuilder'` | Расположение хранилища с данными             |
 | **default**        | `Array, Object` | `undefined`       | Данные для отображения                       |
 | **row-url**        | `String`        | `undefined`       | Адрес для перехода при нажатии на ряд        |
 | **media-queries**  | `Object`        | `<MQDefault>`     | Объект медиа-выражений для отображения ячеек |
