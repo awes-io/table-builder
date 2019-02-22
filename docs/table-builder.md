@@ -13,11 +13,9 @@
 </table-builder>
 ```
 
-@vue
 <table-builder :default="['One', 'Two', 'Three']"
     store-data="table-min">
 </table-builder>
-@endvue
 
 
 ## Свойства компонента
@@ -68,11 +66,25 @@ const AWES_CONFIG = {
 </table-builder>
 ```
 
-@vue
 <table-builder store-data="table-empty">
     <h2 slot="empty">No data</h2>
 </table-builder>
-@endvue
+
+Также, при отсутствии данных компонент получает CSS-класс `.is-empty`
+
+### Состояние загрузки
+
+```html
+<table-builder store-data="table-empty">
+    <div slot="loader">
+        <i class="icon icon-spinner"></i>
+        Loading...
+    </div>
+</table-builder>
+```
+
+Также, в состоянии загрузки компонент получает CSS-класс `.is-loading`
+
 
 ### Слот по-умолчанию
 
@@ -108,7 +120,6 @@ const AWES_CONFIG = {
 </table-builder>
 ```
 
-@vue
 <table-builder
     :default="[
         {name:'First', email:'first@mail.com'},
@@ -128,7 +139,6 @@ const AWES_CONFIG = {
         </template>
     </tb-column>
 </table-builder>
-@endvue
 
 ### Слот вывода списка
 
@@ -146,7 +156,6 @@ const AWES_CONFIG = {
 </table-builder>
 ```
 
-@vue
 <table-builder :default="[
         {name:'First', email:'first@mail.com'},
         {name: 'Second', email: 'second@mail.com'}
@@ -156,7 +165,6 @@ const AWES_CONFIG = {
         {{ l.index + 1 }} <strong>{{l.data.name}}</strong> {{l.data.email}}
     </template>
 </table-builder>
-@endvue
 
 В слот по-умолчанию, с ограниценной областью видимости передаются данные
 
@@ -189,7 +197,6 @@ const AWES_CONFIG = {
 </table-builder>
 ```
 
-@vue
 <table-builder
     :default="[
         {name:'First', email:'first@mail.com'},
@@ -203,7 +210,6 @@ const AWES_CONFIG = {
         </template>
     </tb-column>
 </table-builder>
-@endvue
 
 Если необходима дополнительная стилизация, то используется слот `hidden`
 
@@ -234,7 +240,6 @@ const AWES_CONFIG = {
 </table-builder>
 ```
 
-@vue
 <table-builder
     :default="[
         {name:'First', email:'first@mail.com'},
@@ -254,7 +259,6 @@ const AWES_CONFIG = {
         </div>
     </template>
 </table-builder>
-@endvue
 
 В слот скрытой колонки с ограниченной областью видимости передается:
 
