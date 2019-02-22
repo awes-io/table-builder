@@ -1,11 +1,18 @@
 <template>
-    <div class="int-table">
+    <div class="int-table" :class="{'is-loading': isLoading, 'is-empty': ! tableData && ! isLoading}">
 
 
         <!-- no data -->
-        <div class="int-table__no-data" v-if="! tableData">
+        <div class="int-table__no-data" v-if="! tableData && ! isLoading">
             <slot name="empty">
                 {{ $lang.TABLE_NO_DATA }}
+            </slot>
+        </div>
+
+        <!-- loading state -->
+        <div class="int-table__loader" v-if="isLoading">
+            <slot name="loader">
+                {{ $lang.TABLE_LOADING }}
             </slot>
         </div>
 
@@ -127,6 +134,10 @@ export default {
         tableData() {
             let fromStore = AWES._store.state[this.storeData]
             return fromStore && fromStore.length ? fromStore : false
+        },
+
+        isLoading() {
+            return AWES._store.state[this.storeData + '_loading']
         },
 
         columns() {

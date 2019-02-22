@@ -1,5 +1,5 @@
 <template>
-    <div class="pager" v-if="meta">
+    <div class="pager" :class="{'is-loading': isLoading}" v-if="meta">
         <span class="pager__caption">Record {{ meta.from }}-{{ meta.to }} of {{ meta.total }}</span>
 
         <div class="pager__middle" v-if="paginate">
@@ -90,6 +90,10 @@ export default {
 
         meta() {
             return this.serverData ? this.serverData.meta : false
+        },
+
+        isLoading() {
+            return AWES._store.state[this.storeData + '_loading']
         },
 
         paginate: function() {
@@ -184,7 +188,7 @@ export default {
 
         setLoader($event) {
             AWES._store.commit('setData', {
-                param: this.storeData + '_state',
+                param: this.storeData + '_loading',
                 data: $event.detail
             });
         },
