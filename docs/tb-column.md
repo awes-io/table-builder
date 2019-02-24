@@ -1,9 +1,9 @@
-# Компонент &lt;tb-column&gt;
+# The &lt;tb-column&gt; Component
 
-Компонент колонки динамических таблиц. Доступен для использования только внутри `table-builder`
+It is a component of the column of dynamic tables. It is available for use only within `table-builder`.
 
 
-## Пример использования компонента
+## Example of using the component
 
 ```html
 <table-builder
@@ -13,18 +13,18 @@
     ]"
     store-data="no-pagination"
 >
-    <!-- по имени колонки будет выведено содержимое из переданных данных, если оно есть -->
-    <!-- если содержимого нет, колонка отрисуется пустой -->
+    <!-- The content of the transferred data will be displayed by the column name, if there is -->
+    <!-- If the content is not available, the column will be displayed as empty -->
     <tb-column name="name"></tb-column>
 
-    <!-- меняем заголовок в шапке и разметку внутри ячейки -->
+    <!-- Change a heading in the header and the markup within the cell -->
     <tb-column name="email" label="Super Email">
         <template slot-scope="col">
             <a :href="'mailto:' + col.data.email">{{ col.data.email }}</a>
         </template>
     </tb-column>
 
-    <!-- создаем служебную колонку -->
+    <!-- Create a service column -->
     <tb-column name="no-field" label="">
         <template slot-scope="col">
             <button>Kill {{ col.data.name }}</button>
@@ -53,22 +53,22 @@
 </table-builder>
 
 
-## Свойства компонента
+## Component properties
 
-| Название     | Тип      | По-умолчанию      | Описание                   |
+| Name         | Type     | Default           | Description                |
 |--------------|:--------:|:-----------------:|----------------------------|
-| **name (*)** | `String` | `undefined`       | Имя ключа в объекте данных |
-| **label**    | `String` | `undefined`       | Подпись колонки в шапке    |
-| **media**    | `String` | `undefined`       | Ключ медиа-выражения       |
+| **name (*)** | `String` | `undefined`       | Name of key in the data object |
+| **label**    | `String` | `undefined`       | Column caption in the header    |
+| **media**    | `String` | `undefined`       | Key of media expressions   |
 
 
-## Слоты компонента
+## Component slots
 
-В слот по-умолчанию, с ограниценной областью видимости передаются данные
+By default, the following data are transferred to the slot with the restricted visibility scope:
 
-| Название         | Тип       | Описание                              |
+| Name             | Type      | Description                           |
 |------------------|:---------:|---------------------------------------|
-| **data**         | `any`     | Все данные для текущего **ряда**      |
-| **index**        | `Number`  | Индекс ряда, начиная с 0              |
-| **active**       | `Boolean` | Раскрыта ли скрытая колонка           |
-| **matchedMedia** | `Array`   | Текущие совпадения из медиа-выражений |
+| **data**         | `any`     | All data for the current **row**      |
+| **index**        | `Number`  | Row index, starting from 0            |
+| **active**       | `Boolean` | Specifies if the hidden column is visible     |
+| **matchedMedia** | `Array`   | Current matches of media expressions |
