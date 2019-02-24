@@ -1,4 +1,4 @@
-# Пакет включает компоненты
+# The package includes the following components:
 
 * [table-builder](./table-builder.md)
 * [paginate-captcha](./paginate-builder.md)
