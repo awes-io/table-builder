@@ -1,10 +1,10 @@
-# Компонент &lt;paginate-builder&gt;
+# The &lt;paginate-builder&gt; Component
 
-Компонент динамических форм. Регистрирует хранилище `Vuex` в переменной `AWES._store`
+It is a component of dynamic forms. It registers the `Vuex` store in the `AWES._store` variable.
 
-В состоянии загрузки данных с сервера компонент получает CSS-класс `.is-loading`
+When data are downloaded from the server, the component gets the CSS class `.is-loading`.
 
-## Пример использования компонента
+## Example of using the component
 
 ```html
 <paginate-builder store-data="table" url="test-data.json"></paginate-builder>
@@ -13,17 +13,17 @@
 <paginate-builder store-data="table" url="test-data.json"></paginate-builder>
 
 
-## Свойства компонента
+## Component properties
 
-| Название           | Тип             | По-умолчанию      | Описание                                     |
+| Name               | Type            | Default           | Description                                  |
 |--------------------|:---------------:|:-----------------:|----------------------------------------------|
-| **store-data (*)** | `String`        | `undefined`       | Идентификатор данных в хранилище             |
-| **store-name**     | `String`        | `'$tableBuilder'` | Расположение хранилища с данными             |
-| **default**        | `Array, Object` | `undefined`       | Данные пагинации + данные для отображения    |
-| **url (*)**        | `String`        | `undefined`       | Адрес для запроса данных                     |
-| **scroll-to**      | `String`        | `'body'`          | Элемент, к которому скроллить после перехода |
+| **store-data (*)** | `String`        | `undefined`       | Data identifier in the store                 |
+| **store-name**     | `String`        | `'$tableBuilder'` | Location of data store                       |
+| **default**        | `Array, Object` | `undefined`       | Pagination data + data for displaying        |
+| **url (*)**        | `String`        | `undefined`       | Address for data request                     |
+| **scroll-to**      | `String`        | `'body'`          | Element to be scrolled to after you go       |
 
-### Формат данных для пагинации
+### Data format for the pagination
 
 ```json
 {
@@ -37,11 +37,11 @@
 ```
 
 
-## Скролл до элемента после изменения данных
+## Scrolling to the element after changing data
 
-По умолчанию после переключения пагинации страница скроллится в самый верх (элемент `body`) за *200* миллисекунд
+By default, after switching of pagination, the page is scrolled up (in the body `body` element) in *200* milliseconds.
 
-### Глобально, для всех таблиц
+### Globally, for all tables
 
 ```html
 <head>
@@ -50,8 +50,8 @@
         const AWES_CONFIG = {
             key: 'YOUR API KEY',
             tableBuilder: {
-                scrollTo: '#frame__content', // CSS-селектор, используется в document.querySelector
-                scrollDuration: 300 // миллисекунды, настраивается только глобально для всех таблиц
+                scrollTo: '#frame__content', // CSS selector used in document.querySelector
+                scrollDuration: 300 // milliseconds, this value is configured only globally for all tables
             }
         }
     </script>
@@ -59,14 +59,14 @@
 ```
 
 
-### Для отдельной таблицы (только элемент к которому сколлим)
+### For a separate table (only the element to which you scroll)
 
 ```html
 <paginate-builder scroll-to="#my-element"></paginate-builder>
 ```
 
 
-### Для отключения
+### How to disable scrolling
 
 ```html
 <!-- globally -->
