@@ -1,11 +1,11 @@
-# Компонент &lt;table-builder&gt;
+# The &lt;table-builder&gt; Component
 
-Компонент динамических таблиц. Использует хранилище `Vuex` в переменной `AWES._store`
+It is a component of dynamic tables. It uses the `Vuex` store in the `AWES._store` variable. Below you will see a visual presentation of this component.
 
 ![table-builder](https://storage.googleapis.com/static.awes.io/docs/table-builder.gif)
 
 
-## Пример использования компонента
+## Example of using the component
 
 ```html
 <table-builder :default="['One', 'Two', 'Three']"
@@ -18,21 +18,21 @@
 </table-builder>
 
 
-## Свойства компонента
+## Component properties
 
-| Название           | Тип             | По-умолчанию      | Описание                                     |
+| Name               | Type            | Default           | Description                                  |
 |--------------------|:---------------:|:-----------------:|----------------------------------------------|
-| **store-data (*)** | `String`        | `undefined`       | Идентификатор данных в хранилище             |
-| **default**        | `Array, Object` | `undefined`       | Данные для отображения                       |
-| **row-url**        | `String`        | `undefined`       | Адрес для перехода при нажатии на ряд        |
-| **media-queries**  | `Object`        | `<MQDefault>`     | Объект медиа-выражений для отображения ячеек |
+| **store-data (*)** | `String`        | `undefined`       | Data identifier in the store                 |
+| **default**        | `Array, Object` | `undefined`       | Data for displaying                          |
+| **row-url**        | `String`        | `undefined`       | Address for transition when clicking on a row        |
+| **media-queries**  | `Object`        | `<MQDefault>`     | Object of media expressions for displaying cells |
 
 ```javascript
 
 /**
  * @typedef {Object.<string>} MQDefault
  *
- * Each key of the object is a key for `media` prop in <tb-column>
+ * Each key of the object is a key for `media` property in <tb-column>
  *
  * Each value should be a valid `mediaQueryString` for window.matchMedia
  * https://developer.mozilla.org/ru/docs/Web/API/Window/matchMedia
@@ -56,9 +56,9 @@ const AWES_CONFIG = {
 ```
 
 
-## Слоты компонента
+## Component slots
 
-### Нет данных
+### No data
 
 ```html
 <table-builder store-data="table-empty">
@@ -70,9 +70,9 @@ const AWES_CONFIG = {
     <h2 slot="empty">No data</h2>
 </table-builder>
 
-Также, при отсутствии данных компонент получает CSS-класс `.is-empty`
+Also, when data are not available, the component gets the CSS class `.is-empty`
 
-### Состояние загрузки
+### Loading state
 
 ```html
 <table-builder store-data="table-empty">
@@ -83,12 +83,12 @@ const AWES_CONFIG = {
 </table-builder>
 ```
 
-Также, в состоянии загрузки компонент получает CSS-класс `.is-loading`
+Also, when the data are loading, the component gets the CSS class `.is-loading`
 
 
-### Слот по-умолчанию
+### Default slot
 
-Слот по-умолчанию принимает для отображения только компоненты [&lt;tb-column&gt;](./tb-column.md), в которые передаются данные ряда
+By default, the slot only accepts the [&lt;tb-column&gt;](./tb-column.md) components to which row data is transferred for displaying. Below you can find the HTML layout of this component.
 
 ```html
 <table-builder
@@ -98,20 +98,20 @@ const AWES_CONFIG = {
     ]"
     store-data="no-pagination"
 >
-    <!-- всё, кроме <tb-column> будет пропущено -->
+    <!-- Everything, except <tb-column>, will be skipped  -->
     <h2>Will not render</h2>
 
-    <!-- по имени колонки будет выведено содержимое из переданных данных -->
+    <!-- The content of the transferred data will be displayed by the column name -->
     <tb-column name="name"></tb-column>
 
-    <!-- меняем заголовок в шапке и разметку внутри ячейки -->
+    <!-- Change a heading in the header and the markup within the cell -->
     <tb-column name="email" label="Super Email">
         <template slot-scope="col">
             <a :href="'mailto:' + col.data.email">{{ col.data.email }}</a>
         </template>
     </tb-column>
 
-    <!-- создаем служебную колонку -->
+    <!-- Create a service column -->
     <tb-column name="no-field" label="">
         <template slot-scope="col">
             <button>Kill {{ col.data.name }}</button>
@@ -140,7 +140,7 @@ const AWES_CONFIG = {
     </tb-column>
 </table-builder>
 
-### Слот вывода списка
+### Slot of the list output
 
 ```html
 <table-builder
@@ -166,17 +166,17 @@ const AWES_CONFIG = {
     </template>
 </table-builder>
 
-В слот по-умолчанию, с ограниценной областью видимости передаются данные
+By default, the following data are transferred to the slot with the restricted visibility scope:
 
-| Название         | Тип       | Описание                         |
+| Name             | Type      | Description                      |
 |------------------|:---------:|----------------------------------|
-| **data**         | `any`     | Все данные для текущего **ряда** |
-| **index**        | `Number`  | Индекс ряда, начиная с 0         |
-| **tableData**    | `Array`   | Все данные таблицы               |
+| **data**         | `any`     | All data for the current **row** |
+| **index**        | `Number`  | Row index, starting from 0       |
+| **tableData**    | `Array`   | All data of the table            |
 
-### Слот скрытой колонки
+### Slot of the hidden column
 
-По-умолчанию все скрытые на текущем разрешении колонки выводятся в виде списка
+By default, all columns hidden on the current screen resolution are displayed in the form of a list.
 
 ```html
 <table-builder
@@ -188,7 +188,7 @@ const AWES_CONFIG = {
 >
     <tb-column name="name" label="Super Name"></tb-column>
 
-    <!-- видна только на desktop -->
+    <!-- visible only on the desktop -->
     <tb-column name="email" media="desktop">
         <template slot-scope="col">
             <a :href="'mailto:' + col.data.email">{{ col.data.email }}</a>
@@ -211,7 +211,7 @@ const AWES_CONFIG = {
     </tb-column>
 </table-builder>
 
-Если необходима дополнительная стилизация, то используется слот `hidden`
+If additional stylization is needed, please use the `hidden` slot.
 
 ```html
 <table-builder
@@ -223,14 +223,14 @@ const AWES_CONFIG = {
 >
     <tb-column name="name" label="Super Name"></tb-column>
 
-    <!-- видна только на desktop -->
+    <!-- visible only on the desktop -->
     <tb-column name="email" media="desktop">
         <template slot-scope="col">
             <a :href="'mailto:' + col.data.email">{{ col.data.email }}</a>
         </template>
     </tb-column>
 
-    <!-- своя разметка для скрытой колонки -->
+    <!-- your own markup for the hidden column -->
     <template slot="hidden" slot-scope="m">
         <div>
             <h4 v-if="m.matchedMedia.includes('mobile')">Mobile-only heading</h4>
@@ -260,10 +260,10 @@ const AWES_CONFIG = {
     </template>
 </table-builder>
 
-В слот скрытой колонки с ограниченной областью видимости передается:
+The following data are transferred to the slot of the hidden column with the restricted visibility scope:
 
-| Название         | Тип       | Описание                              |
+| Name             | Type      | Description                           |
 |------------------|:---------:|---------------------------------------|
-| **data**         | `any`     | Скрытые данные из текущего **ряда**   |
-| **index**        | `Number`  | Индекс ряда, начиная с 0              |
-| **matchedMedia** | `Array`   | Текущие совпадения из медиа-выражений |
+| **data**         | `any`     | Data hidden from the current **row**  |
+| **index**        | `Number`  | Row index, starting from 0            |
+| **matchedMedia** | `Array`   | Current matches of media expressions  |
