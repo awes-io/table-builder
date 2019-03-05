@@ -1,5 +1,15 @@
-# The package includes the following components:
+# Table builder
 
-* [table-builder](./table-builder.md)
-* [paginate-captcha](./paginate-builder.md)
-* [tb-column](./tb-column.md)
+![table-builder](https://static.awes.io/docs/table-builder.gif)
+
+## Install
+
+```bash
+composer require awes-io/table-builder
+```
+
+## Components
+
+* [Table Builder](./table-builder.md)
+* [Paginate Builder](./paginate-builder.md)
+* [Table Column](./tb-column.md)

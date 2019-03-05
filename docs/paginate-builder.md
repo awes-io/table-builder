@@ -1,5 +1,11 @@
 # The &lt;paginate-builder&gt; Component
 
+## Components
+
+* [Table Builder](./table-builder.md)
+* **Paginate Builder**
+* [Table Column](./tb-column.md)
+
 It is a component of dynamic forms. It registers the `Vuex` store in the `AWES._store` variable.
 
 When data are downloaded from the server, the component gets the CSS class `.is-loading`.

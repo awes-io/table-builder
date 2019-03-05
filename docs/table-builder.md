@@ -2,8 +2,11 @@
 
 It is a component of dynamic tables. It uses the `Vuex` store in the `AWES._store` variable. Below you will see a visual presentation of this component.
 
-![table-builder](https://storage.googleapis.com/static.awes.io/docs/table-builder.gif)
+## Components
 
+* **Table Builder**
+* [Paginate Builder](./paginate-builder.md)
+* [Table Column](./tb-column.md)
 
 ## Example of using the component
 
@@ -13,10 +16,11 @@ It is a component of dynamic tables. It uses the `Vuex` store in the `AWES._stor
 </table-builder>
 ```
 
+<div class="vue-example">
 <table-builder :default="['One', 'Two', 'Three']"
     store-data="table-min">
 </table-builder>
-
+</div>
 
 ## Component properties
 
@@ -66,9 +70,11 @@ const AWES_CONFIG = {
 </table-builder>
 ```
 
+<div class="vue-example">
 <table-builder store-data="table-empty">
     <h2 slot="empty">No data</h2>
 </table-builder>
+</div>
 
 Also, when data are not available, the component gets the CSS class `.is-empty`
 
@@ -120,6 +126,7 @@ By default, the slot only accepts the [&lt;tb-column&gt;](./tb-column.md) compon
 </table-builder>
 ```
 
+<div class="vue-example">
 <table-builder
     :default="[
         {name:'First', email:'first@mail.com'},
@@ -139,6 +146,7 @@ By default, the slot only accepts the [&lt;tb-column&gt;](./tb-column.md) compon
         </template>
     </tb-column>
 </table-builder>
+</div>
 
 ### Slot of the list output
 
@@ -156,6 +164,7 @@ By default, the slot only accepts the [&lt;tb-column&gt;](./tb-column.md) compon
 </table-builder>
 ```
 
+<div class="vue-example">
 <table-builder :default="[
         {name:'First', email:'first@mail.com'},
         {name: 'Second', email: 'second@mail.com'}
@@ -165,6 +174,7 @@ By default, the slot only accepts the [&lt;tb-column&gt;](./tb-column.md) compon
         {{ l.index + 1 }} <strong>{{l.data.name}}</strong> {{l.data.email}}
     </template>
 </table-builder>
+</div>
 
 By default, the following data are transferred to the slot with the restricted visibility scope:
 
@@ -196,7 +206,7 @@ By default, all columns hidden on the current screen resolution are displayed in
     </tb-column>
 </table-builder>
 ```
-
+<div class="vue-example">
 <table-builder
     :default="[
         {name:'First', email:'first@mail.com'},
@@ -210,6 +220,7 @@ By default, all columns hidden on the current screen resolution are displayed in
         </template>
     </tb-column>
 </table-builder>
+</div>
 
 If additional stylization is needed, please use the `hidden` slot.
 
@@ -240,6 +251,7 @@ If additional stylization is needed, please use the `hidden` slot.
 </table-builder>
 ```
 
+<div class="vue-example">
 <table-builder
     :default="[
         {name:'First', email:'first@mail.com'},
@@ -259,6 +271,7 @@ If additional stylization is needed, please use the `hidden` slot.
         </div>
     </template>
 </table-builder>
+</div>
 
 The following data are transferred to the slot of the hidden column with the restricted visibility scope:
 

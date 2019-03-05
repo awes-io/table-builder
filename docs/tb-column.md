@@ -2,6 +2,11 @@
 
 It is a component of the column of dynamic tables. It is available for use only within `table-builder`.
 
+## Components
+
+* [Table Builder](./table-builder.md)
+* [Paginate Builder](./paginate-builder.md)
+* **Table Column**
 
 ## Example of using the component
 
@@ -33,6 +38,7 @@ It is a component of the column of dynamic tables. It is available for use only 
 </table-builder>
 ```
 
+<div class="vue-example">
 <table-builder
     :default="[
         {name:'First', email:'first@mail.com'},
@@ -51,7 +57,7 @@ It is a component of the column of dynamic tables. It is available for use only 
         </template>
     </tb-column>
 </table-builder>
-
+</div>
 
 ## Component properties
 
