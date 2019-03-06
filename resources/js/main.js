@@ -36,7 +36,7 @@ const awesPlugin = {
             src: 'https://unpkg.com/vuex@2.5.0/dist/vuex.min.js',
             deps: ['vue'],
             cb() {
-                AWES._store = AWES.store || new Vuex.Store(store)
+                AWES._store = AWES._store || new Vuex.Store(store)
             }
         },
         'awes-context-menu': {
