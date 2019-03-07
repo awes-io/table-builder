@@ -151,7 +151,7 @@ export default {
         },
 
         tableOptions() {
-            return this.columns.map(item => {
+            return this.columns && this.columns.map(item => {
                 return Object.assign({}, item.componentOptions.propsData, {
                     className: item.data.staticClass,
                     scopedSlots: item.data.scopedSlots && item.data.scopedSlots.default ?
