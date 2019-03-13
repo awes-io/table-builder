@@ -1,6 +1,8 @@
 <template>
     <div class="int-table" :class="{'is-loading': isLoading, 'is-empty': ! tableData && ! isLoading}">
 
+        <!-- header slot -->
+        <slot name="header"></slot>
 
         <!-- no data -->
         <div class="int-table__no-data" v-if="! tableData && ! isLoading">
@@ -95,6 +97,8 @@
             </tbody>
         </table>
 
+        <!-- footer slot -->
+        <slot name="footer"></slot>
     </div>
 </template>
 

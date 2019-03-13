@@ -25,16 +25,26 @@ export default {
             default: false
         },
 
-        url: {
-            type: String,
-            default: null
-        },
+        url: String,
 
         matchedMedia: Array,
 
         showToggler: {
             type: Boolean,
             default: false
+        }
+    },
+
+
+    computed: {
+
+        urlFormatted() {
+            let url = this.url
+            let props = url.match(/(?!{)([\w.\[\]]+)(?=})/g)
+            props && props.length && props.forEach( prop => {
+                url = url.replace('{' + prop + '}', this.data[prop] || '')
+            })
+            return url.replace(/(\/\/+)/g, '/').replace(':/', '://')
         }
     },
 
@@ -58,18 +68,16 @@ export default {
             this.$emit('setActive', this.index, !this.active);
         },
 
-        goTo(event) {//TODO: Подумать над реализацией
-            let isToggle = event.target.classList.contains('int-table__show');
-            if (this.url && !isToggle) {
-                window.location.href = this.url + '/' + this.data.id;
-            }
+        goTo() {
+            if ( ! this.url ) return
+            window.location.href = this.urlFormatted
         }
     },
 
 
     render(h) {
         return h('tr', {
-                class: { active: this.active, 'int-table__block': true },
+                class: { active: this.active, 'int-table__block': true, 'is-link': this.url },
                 on: { click: this.goTo }
             }, [
                 this.tableOptions.map(option => {
