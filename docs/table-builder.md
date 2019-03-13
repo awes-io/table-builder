@@ -280,3 +280,50 @@ The following data are transferred to the slot of the hidden column with the res
 | **data**         | `any`     | Data hidden from the current **row**  |
 | **index**        | `Number`  | Row index, starting from 0            |
 | **matchedMedia** | `Array`   | Current matches of media expressions  |
+
+
+### Header and footer slots (from v.1.0.11)
+
+Add static content before and after table
+
+```html
+<table-builder
+    :default="[
+        {name:'First', email:'first@mail.com'},
+        {name: 'Second', email: 'second@mail.com'},
+        {name: 'Third', email: 'third@mail.com'}
+    ]"
+    store-data="header-footer-slot"
+>
+    <template slot="header">
+        <h3>Employees list</h3>
+    </template>
+    <template slot="list" slot-scope="l">
+        {{ l.index + 1 }} <strong>{{l.data.name}}</strong> {{l.data.email}}
+    </template>
+    <template slot="footer">
+        <p><button>Add<button> one more employee</p>
+    </template>
+</table-builder>
+```
+
+<div class="vue-example">
+<table-builder
+    :default="[
+        {name:'First', email:'first@mail.com'},
+        {name: 'Second', email: 'second@mail.com'},
+        {name: 'Third', email: 'third@mail.com'}
+    ]"
+    store-data="header-footer-slot"
+>
+    <template slot="header">
+        <h3>Employees list</h3>
+    </template>
+    <template slot="list" slot-scope="l">
+        {{ l.index + 1 }} <strong>{{l.data.name}}</strong> {{l.data.email}}
+    </template>
+    <template slot="footer">
+        <p><button class="btn" type="button">Add<button> one more employee</p>
+    </template>
+</table-builder>
+</div>
