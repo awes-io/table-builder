@@ -44,7 +44,7 @@ export default {
             props && props.length && props.forEach( prop => {
                 url = url.replace('{' + prop + '}', this.data[prop] || '')
             })
-            return url.replace(/(\/\/+)/g, '/').replace(':/', '://')
+            return url.replace(/([^:]\/)\/+/g, '$1')
         }
     },
 
