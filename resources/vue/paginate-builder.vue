@@ -94,7 +94,7 @@ export default {
 
         hasData() {
             let d = this.serverData
-            return d && d.data && d.data.length
+            return d && d.data && Array.isArray(d.data) ? d.data.length : Object.keys(d.data).length
         },
 
         isLoading() {
