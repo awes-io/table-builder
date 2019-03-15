@@ -1,5 +1,5 @@
 <template>
-    <div class="pager" :class="{'is-loading': isLoading}" v-if="meta">
+    <div class="pager" :class="{'is-loading': isLoading}" v-if="meta && hasData">
         <span class="pager__caption">Record {{ meta.from }}-{{ meta.to }} of {{ meta.total }}</span>
 
         <div class="pager__middle" v-if="paginate">
@@ -90,6 +90,11 @@ export default {
 
         meta() {
             return this.serverData ? this.serverData.meta : false
+        },
+
+        hasData() {
+            let d = this.serverData
+            return d && d.data && Array.isArray(d.data) ? d.data.length : Object.keys(d.data).length
         },
 
         isLoading() {
