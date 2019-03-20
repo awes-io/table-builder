@@ -1,6 +1,6 @@
 # The &lt;table-builder&gt; Component
 
-It is a component of dynamic tables. It uses the `Vuex` store in the `AWES._store` variable. Below you will see a visual presentation of this component.
+It is a component of dynamic tables. It uses the global `Vuex` store. Below you will see a visual presentation of this component.
 
 ## Components
 
@@ -28,7 +28,7 @@ It is a component of dynamic tables. It uses the `Vuex` store in the `AWES._stor
 |--------------------|:---------------:|:-----------------:|----------------------------------------------|
 | **store-data (*)** | `String`        | `undefined`       | Data identifier in the store                 |
 | **default**        | `Array, Object` | `undefined`       | Data for displaying                          |
-| **row-url**        | `String`        | `undefined`       | Address for transition when clicking on a row        |
+| **row-url**        | `String`        | `undefined`       | Address for transition when clicking on a row. It could be a template like `http://some.url/{id}`, where `id` will be replaced with the id variable from row data, thus every row may have it's own url to redirect |
 | **media-queries**  | `Object`        | `<MQDefault>`     | Object of media expressions for displaying cells |
 
 ```javascript
