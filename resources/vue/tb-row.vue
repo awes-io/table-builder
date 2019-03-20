@@ -68,8 +68,26 @@ export default {
             this.$emit('setActive', this.index, !this.active);
         },
 
-        goTo() {
-            if ( ! this.url ) return
+        /**
+         * Checks for click on interactive lement: <a> or <button>
+         * to prevent redirect
+         * 
+         * @param  {HTMLElement}  eventTarget - clicked target
+         * @return {Boolean} if this was a click on interactive element
+         */
+        isInteraction(eventTarget) {
+            let interaction = false
+            const elements = ['a', 'button']
+            const match = el => elements.includes(el.tagName.toLowerCase())
+            while ( ! interaction && eventTarget !== this.$el ) {
+                if ( match(eventTarget) ) interaction = true
+                eventTarget = eventTarget.parentElement
+            }
+            return interaction
+        },
+
+        goTo(event) {
+            if ( this.isInteraction(event.target) ) return
             window.location.href = this.urlFormatted
         }
     },
@@ -78,7 +96,7 @@ export default {
     render(h) {
         return h('tr', {
                 class: { active: this.active, 'int-table__block': true, 'is-link': this.url },
-                on: { click: this.goTo }
+                on: this.url ? { click: this.goTo } : undefined
             }, [
                 this.tableOptions.map(option => {
                     return h('td', {class: [option.className]}, this.getCell(this.data, option))

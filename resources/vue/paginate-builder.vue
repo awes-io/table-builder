@@ -98,7 +98,7 @@ export default {
         },
 
         isLoading() {
-            return AWES._store.state[this.storeData + '_loading']
+            return this.$store.state[this.storeData + '_loading']
         },
 
         paginate: function() {
@@ -156,7 +156,7 @@ export default {
         '$route': 'updateData',
 
         serverData: function () {
-            AWES._store.commit('setData', {
+            this.$store.commit('setData', {
                 param: this.storeData,
                 data: this.serverData.data
             });
@@ -192,7 +192,7 @@ export default {
         },
 
         setLoader($event) {
-            AWES._store.commit('setData', {
+            this.$store.commit('setData', {
                 param: this.storeData + '_loading',
                 data: $event.detail
             });
@@ -213,12 +213,6 @@ export default {
 
 
     beforeCreate() {
-        // router
-        this._routerRoot = this
-        this._router = AWES._vueRouter
-        this._router.init(this)
-        Vue.util.defineReactive(this, '_route', this._router.history.current)
-
         // config
         this._config = Object.assign(config, _.pick(AWES._config.tableBuilder, Object.keys(config)))
     },

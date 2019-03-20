@@ -1,23 +1,13 @@
 import store from './modules/store.js'
 import plugin from './plugin.js'
 import lang from './modules/lang.js'
+import { name, version } from '../../package.json'
 
 const awesPlugin = {
 
+    name, version,
+
     modules: {
-        'vue': {
-            src: 'https://unpkg.com/vue@2.5.21/dist/vue.js',
-            cb() {
-                Vue.use(plugin)
-            }
-        },
-        'vue-router': {
-            src: 'https://unpkg.com/vue-router@3.0.2/dist/vue-router.min.js',
-            deps: ['vue'],
-            cb() {
-                AWES._vueRouter = AWES._vueRouter || new VueRouter({ mode: 'history' })
-            }
-        },
         'vue-smoothscroll': {
             src: 'https://unpkg.com/vue-smoothscroll@0.2.0/dist/vue-smoothscroll.js',
             deps: ['vue'],
@@ -27,24 +17,12 @@ const awesPlugin = {
         },
         'lodash': {
             src: 'https://unpkg.com/lodash@4.17.11/lodash.min.js',
-            deps: ['vue'],
-            cb() {
-                Vue.prototype.$get = _.get
-            }
-        },
-        'vuex': {
-            src: 'https://unpkg.com/vuex@2.5.0/dist/vuex.min.js',
-            deps: ['vue'],
-            cb() {
-                AWES._store = AWES._store || new Vuex.Store(store)
-            }
-        },
-        'awes-context-menu': {
-            src: 'https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/context-menu/v0.x.x/js/main.js',
+            deps: ['vue']
         }
     },
 
     install() {
+        Vue.use(plugin)
         AWES.lang = lang
     }
 }

@@ -6,7 +6,7 @@
 * **Paginate Builder**
 * [Table Column](./tb-column.md)
 
-It is a component of dynamic forms. It registers the `Vuex` store in the `AWES._store` variable.
+It is a component of dynamic forms. It uses the global `Vuex` store.
 
 When data are downloaded from the server, the component gets the CSS class `.is-loading`.
 
@@ -24,7 +24,6 @@ When data are downloaded from the server, the component gets the CSS class `.is-
 | Name               | Type            | Default           | Description                                  |
 |--------------------|:---------------:|:-----------------:|----------------------------------------------|
 | **store-data (*)** | `String`        | `undefined`       | Data identifier in the store                 |
-| **store-name**     | `String`        | `'$tableBuilder'` | Location of data store                       |
 | **default**        | `Array, Object` | `undefined`       | Pagination data + data for displaying        |
 | **url (*)**        | `String`        | `undefined`       | Address for data request                     |
 | **scroll-to**      | `String`        | `'body'`          | Element to be scrolled to after you go       |

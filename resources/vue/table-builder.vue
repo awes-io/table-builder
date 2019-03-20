@@ -58,6 +58,7 @@
             <thead>
                 <tr>
                     <th v-for="(name, i) in columnNames" :key="i">{{ name }}</th>
+                    <th v-if="hiddenOptions && hiddenOptions.length"></th>
                 </tr>
             </thead>
             <tbody>
@@ -136,12 +137,12 @@ export default {
     computed: {
 
         tableData() {
-            let fromStore = AWES._store.state[this.storeData]
+            let fromStore = this.$store.state[this.storeData]
             return fromStore && fromStore.length ? fromStore : false
         },
 
         isLoading() {
-            return AWES._store.state[this.storeData + '_loading']
+            return this.$store.state[this.storeData + '_loading']
         },
 
         columns() {
@@ -226,7 +227,7 @@ export default {
         let defaultData = Array.isArray(dafault) ?
                           dafault.slice() :
                           [ Object.assign({}, this.$options.propsData.default) ]
-        AWES._store.commit('setData', {
+        this.$store.commit('setData', {
             param: this.$options.propsData.storeData,
             data: defaultData
         })
