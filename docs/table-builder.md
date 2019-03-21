@@ -277,7 +277,8 @@ The following data are transferred to the slot of the hidden column with the res
 
 | Name             | Type      | Description                           |
 |------------------|:---------:|---------------------------------------|
-| **data**         | `any`     | Data hidden from the current **row**  |
+| **data**         | `Object`  | All **row** data                      |
+| **hidden-data**  | `Object`  | Data hidden from the current **row**  |
 | **index**        | `Number`  | Row index, starting from 0            |
 | **matchedMedia** | `Array`   | Current matches of media expressions  |
 
