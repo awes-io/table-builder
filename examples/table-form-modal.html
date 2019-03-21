@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Table with form and modal</title>
 
+    <link rel="stylesheet" href="https://cdn.pkgkit.com/d967535b610145f1111c7dfb5be56d11/awes-io/indigo-layout/v1.x.x/css/main.css?v=20190320110115">
+
     <script>
         const AWES_CONFIG = {
             dev: true,
@@ -15,25 +17,24 @@
 
     <!-- table-builder -->
     <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/main.css">
 
     <!-- context-menu -->
-    <link rel="stylesheet" href="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/context-menu/v1.x.x/css/main.css">
     <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/context-menu/v1.x.x/js/main.js"></script>
 
     <!-- form-builder -->
     <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/form-builder/v1.3.14/js/main.js"></script>
-    <link rel="stylesheet" href="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/form-builder/v1.x.x/css/main.css">
 
     <!-- modal -->
     <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/modal-window/v1.x.x/js/main.js"></script>
-    <link rel="stylesheet" href="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/modal-window/v1.x.x/css/main.css">
+
+    <!-- indigo layout -->
+    <script src="https://cdn.pkgkit.com/d967535b610145f1111c7dfb5be56d11/awes-io/indigo-layout/v1.x.x/js/main.legacy.js"></script>
 
     <!-- core (from v 0.1.6) -->
     <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/base-js/v1.x.x/js/main.js"></script>
 </head>
 <body>
-    <div id="awes-app">
+    <div id="awes-app" class="mainwrapper">
         <table-builder store-data="table">
 
             <template slot="empty">
@@ -52,7 +53,7 @@
             </tb-column>
             <tb-column name="edit">
                 <template slot-scope="col">
-                    <button @click="$store.$set('editForm', col.data); AWES.emit('modal::edit-modal.open')">
+                    <button @click="$router.push({query: $set($route.query, 'edit_id', col.index)}); AWES.emit('modal::edit-modal.open')">
                         Edit {{ $get(col.data, 'profile_manager.first_name') }}
                     </button>
                 </template>
@@ -62,17 +63,19 @@
 
         <paginate-builder url="/test-data.json" store-data="table" :default="false"></paginate-builder>
 
-        <modal-window name="edit-modal">
-            <form-builder url="//httpbin.org/post" store-data="editForm">
-                <fb-input name="profile_manager.first_name" label="First name"></fb-input>
-                <fb-input name="profile_manager.last_name" label="Last name"></fb-input>
-                <fb-multi-block name="phones">
-                    <template slot-scope="block">
-                        <fb-input name="phone" :id="block.id" :label="'Phone ' + (block.id + 1)"></fb-input>
-                    </template>
-                </fb-multi-block>
-            </form-builder>
-        </modal-window>
+        <content-wrapper store-data="table">
+            <modal-window name="edit-modal" slot-scope="content">
+                <form-builder url="//httpbin.org/post" :default="content[$route.query.edit_id]">
+                    <fb-input name="profile_manager.first_name" label="First name"></fb-input>
+                    <fb-input name="profile_manager.last_name" label="Last name"></fb-input>
+                    <fb-multi-block name="phones">
+                        <template slot-scope="block">
+                            <fb-input name="phone" :id="block.id" :label="'Phone ' + (block.id + 1)"></fb-input>
+                        </template>
+                    </fb-multi-block>
+                </form-builder>
+            </modal-window>
+        </content-wrapper>
     </div>
 </body>
 </html>
