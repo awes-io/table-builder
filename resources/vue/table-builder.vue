@@ -81,8 +81,8 @@
                         <td :colspan="shownOptions.length + 1">
                             <slot
                                 name="hidden"
-                                :rowData="rowData"
-                                :data="hiddenColumnData[i]"
+                                :data="rowData"
+                                :hiddenData="hiddenColumnData[i]"
                                 :matchedMedia="matchedMedia"
                                 :index="i"
                             >
