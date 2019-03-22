@@ -11,16 +11,20 @@
                 >
                     <i class="icon icon-arrow-left"></i>
                 </a>
-                <div class="pager__links-wrap">
-                    <span v-for="(p, i) in paginate" :key="i">
-                        <a
-                            v-if="p" class="pager__link"
-                            href=""
-                            :class="{ 'pager__link_active': p === meta.current_page }"
+                <div class="btn-group">
+                    <template v-for="(p, i) in paginate">
+                        <a  v-if="p"
+                            :key="i"
+                            class="btn has-wave"
+                            :href="getStringified(p)"
+                            :class="{ 'active': p === meta.current_page}"
                             @click.prevent="setPage(p)"
-                        >{{ p }}</a>
-                        <span v-else class="pager__spacer">...</span>
-                    </span>
+                        >
+                            {{ p }}
+                            <span class="wave"></span>
+                        </a>
+                        <span v-else class="btn-group__separator" :key="i">...</span>
+                    </template>
                 </div>
                 <a
                     href=""
@@ -204,10 +208,12 @@ export default {
 
         setPage(page) {
             if (page > 0 && page <= this.meta.last_page) {
-                this.$router.push({
-                    query: Object.assign({}, this.$route.query, { page: page.toString() })
-                });
+                this.$router.$setParam({ page: page.toString() })
             }
+        },
+
+        getStringified(page) {
+            return '/?' + AWES.utils.stringifyQuery(Object.assign({}, this.$route.query, {page})) + this.$route.hash
         }
     },
 

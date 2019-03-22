@@ -22,16 +22,16 @@
     <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/context-menu/v1.x.x/js/main.js"></script>
 
     <!-- form-builder -->
-    <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/form-builder/v1.3.14/js/main.js"></script>
+    <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/form-builder/v1.x.x/js/main.js"></script>
 
     <!-- modal -->
     <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/modal-window/v1.x.x/js/main.js"></script>
 
     <!-- indigo layout -->
-    <script src="https://cdn.pkgkit.com/d967535b610145f1111c7dfb5be56d11/awes-io/indigo-layout/v1.x.x/js/main.legacy.js"></script>
+    <script src="https://cdn.pkgkit.com/d967535b610145f1111c7dfb5be56d11/awes-io/indigo-layout/v1.x.x/js/main.js"></script>
 
     <!-- core (from v 0.1.6) -->
-    <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/base-js/v1.x.x/js/main.js"></script>
+    <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/base-js/v1.3.15/js/main.js"></script>
 </head>
 <body>
     <div id="awes-app" class="mainwrapper">
@@ -53,7 +53,7 @@
             </tb-column>
             <tb-column name="edit">
                 <template slot-scope="col">
-                    <button @click="$router.push({query: $set($route.query, 'edit_id', col.index)}); AWES.emit('modal::edit-modal.open')">
+                    <button class="btn" @click="$router.$setParam({'edit_id': col.index}); AWES.emit('modal::edit-modal.open')">
                         Edit {{ $get(col.data, 'profile_manager.first_name') }}
                     </button>
                 </template>

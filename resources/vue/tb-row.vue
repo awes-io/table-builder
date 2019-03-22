@@ -39,12 +39,7 @@ export default {
     computed: {
 
         urlFormatted() {
-            let url = this.url
-            let props = url.match(/(?!{)([\w.\[\]]+)(?=})/g)
-            props && props.length && props.forEach( prop => {
-                url = url.replace('{' + prop + '}', this.data[prop] || '')
-            })
-            return url.replace(/([^:]\/)\/+/g, '$1')
+            return this.url && AWES.utils.urlFromTemplate(this.url, this.data)
         }
     },
 
