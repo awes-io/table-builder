@@ -207,7 +207,7 @@ export default {
         },
 
         setPage(page) {
-            if (page > 0 && page <= this.meta.last_page) {
+            if (page > 0 && this.meta && page <= this.meta.last_page) {
                 this.$router.$setParam({ page: page.toString() })
             }
         },
