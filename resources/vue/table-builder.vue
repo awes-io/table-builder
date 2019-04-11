@@ -73,6 +73,8 @@
                         :matchedMedia="matchedMedia"
                         :showToggler="!!hiddenColumnData"
                         @setActive="setActiveItem"
+                        @click="rowClick"
+                        ref="tbRows"
                     ></tb-row>
                     <tr class="int-table__hidden"
                         v-if="hiddenColumnData"
@@ -93,7 +95,7 @@
                                 </ul>
                             </slot>
                         </td>
-                    </tr>
+                    </tr>     
                 </template>
             </tbody>
         </table>
@@ -106,12 +108,15 @@
 <script>
 import { ucFirst } from '../js/modules/fp.js'
 import mediaQueries from '../js/mixins/media-queries.js'
+import tbRow from './tb-row.vue'
 
 export default {
 
     name: 'table-builder',
 
     mixins: [ mediaQueries ],
+
+    components: { tbRow },
 
 
     props: {
@@ -123,7 +128,16 @@ export default {
 
         default: [Array, Object],
 
-        rowUrl: String
+        rowUrl: String,
+
+        rowClick: {
+            type: Function,
+            default(data) {
+                if ( data && data.url ) {
+                    window.location.href = AWES.utils.urlFromTemplate(data.url, data.data)
+                }
+            }
+        }
     },
 
 

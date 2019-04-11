@@ -7,7 +7,7 @@
                 <a
                     href=""
                     class="pager__arr-left"
-                    @click.prevent="setPage(meta.current_page-1)"
+                    @click.stop.prevent="setPage(meta.current_page-1)"
                 >
                     <i class="icon icon-arrow-left"></i>
                 </a>
@@ -18,7 +18,7 @@
                             class="btn has-wave"
                             :href="getStringified(p)"
                             :class="{ 'active': p === meta.current_page}"
-                            @click.prevent="setPage(p)"
+                            @click.stop.prevent="setPage(p)"
                         >
                             {{ p }}
                             <span class="wave"></span>
@@ -29,7 +29,7 @@
                 <a
                     href=""
                     class="pager__arr-right"
-                    @click.prevent="setPage(meta.current_page+1)"
+                    @click.stop.prevent="setPage(meta.current_page+1)"
                 >
                     <i class="icon icon-arrow-right"></i>
                 </a>

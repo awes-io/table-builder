@@ -1,6 +1,6 @@
 {
     "name": "table-builder",
-    "version": "1.0.17",
+    "version": "1.0.18",
     "description": "Dynamic tables with pagination and sorting for data visualization",
     "main": "dist/js/main.js",
     "module": "src/js/plugin.js",
