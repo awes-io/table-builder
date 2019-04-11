@@ -1,7 +1,55 @@
 <script>
+
+function getCell(props, option) {
+
+    return option.scopedSlots ?
+            option.scopedSlots({
+                data: props.data,
+                index: props.index,
+                active: props.active,
+                matchedMedia: props.matchedMedia
+            }) :
+            props.data[option.name]
+}
+
+function getFormattedUrl(props) {
+    return props.url && AWES.utils.urlFromTemplate(props.url, props.data)
+}
+
+/**
+ * Checks for click on interactive lement: <a> or <button>
+ * to prevent redirect
+ * 
+ * @param  {HTMLElement}  eventTarget - clicked target
+ * @return {Boolean} if this was a click on interactive element
+ */
+function isInteraction(eventTarget) {
+    let interaction = false
+    const elements = ['A', 'BUTTON']
+    const match = el => elements.includes(el.tagName)
+    while ( ! interaction && eventTarget.tagName !== 'TR' ) {
+        if ( match(eventTarget) ) interaction = true
+        eventTarget = eventTarget.parentElement
+    }
+    return interaction
+}
+
+function emitOnClick(event) {
+    if ( isInteraction(event.target) ) return
+    this.listeners.click.call(window, this.props)
+}
+
+function setActive(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.listeners.setActive(this.props.index, !this.props.active);
+}
+
 export default {
 
     name: 'tb-row',
+
+    functional: true,
 
     props: {
 
@@ -35,78 +83,38 @@ export default {
         }
     },
 
+    
+    render(h, ctx) {
 
-    computed: {
+        const props = ctx.props
 
-        urlFormatted() {
-            return this.url && AWES.utils.urlFromTemplate(this.url, this.data)
-        }
-    },
+        const cells = props.tableOptions.map( (option, i) => {
+            return h('td', { 
+                staticClass: [option.className],
+                key: i 
+            }, getCell(props, option))
+        })
 
-
-    methods: {
-
-        getCell(data, option) {
-            return option.scopedSlots ?
-                    option.scopedSlots({
-                        data: data,
-                        index: this.index,
-                        active: this.active,
-                        matchedMedia: this.matchedMedia
-                    }) :
-                    this.data[option.name]
-        },
-
-        setActive(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            this.$emit('setActive', this.index, !this.active);
-        },
-
-        /**
-         * Checks for click on interactive lement: <a> or <button>
-         * to prevent redirect
-         * 
-         * @param  {HTMLElement}  eventTarget - clicked target
-         * @return {Boolean} if this was a click on interactive element
-         */
-        isInteraction(eventTarget) {
-            let interaction = false
-            const elements = ['a', 'button']
-            const match = el => elements.includes(el.tagName.toLowerCase())
-            while ( ! interaction && eventTarget !== this.$el ) {
-                if ( match(eventTarget) ) interaction = true
-                eventTarget = eventTarget.parentElement
-            }
-            return interaction
-        },
-
-        goTo(event) {
-            if ( this.isInteraction(event.target) ) return
-            window.location.href = this.urlFormatted
-        }
-    },
-
-
-    render(h) {
-        return h('tr', {
-                class: { active: this.active, 'int-table__block': true, 'is-link': this.url },
-                on: this.url ? { click: this.goTo } : undefined
-            }, [
-                this.tableOptions.map(option => {
-                    return h('td', {class: [option.className]}, this.getCell(this.data, option))
-                }),
-                //Mobile toggle button
-                this.showToggler ? h('td', {
-                    on:{ click: this.setActive},
+        //Mobile toggle button
+        if ( props.showToggler ) {
+            cells.push(
+                h('td', {
+                    key: 'toggler',
+                    on:{ click: setActive.bind(ctx) },
                     attrs: {class: 'int-table__control-tab'}
                 }, [
                     h('a', {attrs: {class:'int-table__show', href: ''}}, [
                         h('i', {attrs: {class:'icon icon-box-down'}})
                     ])
-                ]) : null
-            ]
-        )
+                ])
+            )
+        }
+
+        return h('tr', {
+            staticClass: 'int-table__block',
+            class: { active: props.active, 'is-link': props.url },
+            key: props.index + '-row',
+            on: props.url ? { click: emitOnClick.bind(ctx) } : undefined }, cells )
     }
 }
 </script>
