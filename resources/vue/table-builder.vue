@@ -20,10 +20,10 @@
 
 
         <!-- no columns -> show as list -->
-        <div class="int-table__list"
+        <div :class="listClass"
             v-if="tableData && ! hasColumns"
         >
-            <div class="int-table__list-row"
+            <div :class="listRowClass"
                 v-for="(row, i) in tableData"
                 :key="i"
             >
@@ -127,6 +127,16 @@ export default {
         },
 
         default: [Array, Object],
+
+        listClass: {
+            type: String,
+            default: 'int-table__list'
+        },
+
+        listRowClass: {
+            type: String,
+            default: 'int-table__list-row'
+        },
 
         rowUrl: String,
 
