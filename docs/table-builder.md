@@ -28,6 +28,8 @@ It is a component of dynamic tables. It uses the global `Vuex` store. Below you 
 |--------------------|:---------------:|:-----------------:|----------------------------------------------|
 | **store-data (*)** | `String`        | `undefined`       | Data identifier in the store                 |
 | **default**        | `Array, Object` | `undefined`       | Data for displaying                          |
+| **list-class**     | `String`        | `int-table__list` | CSS class for wrapper, while rendering table as a list |
+| **list-row-class** | `String`        | `int-table__list-row` | CSS class for row, while rendering table as a list |
 | **row-url**        | `String`        | `undefined`       | Address for transition when clicking on a row. It could be a template like `http://some.url/{id}`, where `id` will be replaced with the id variable from row data, thus every row may have it's own url to redirect |
 | **row-click**      | `Function`      | redirect to row-url| By default, click on a table row redirects window to url, provided in 'row-url' prop. You may overwrite this behaviour. In this function `this` refers to `window` |
 | **media-queries**  | `Object`        | `<MQDefault>`     | Object of media expressions for displaying cells |
