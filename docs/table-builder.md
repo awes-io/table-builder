@@ -79,20 +79,20 @@ const AWES_CONFIG = {
 </table-builder>
 </div>
 
-Also, when data are not available, the component gets the CSS class `.is-empty`
+Also, when data are not available, the component receives a CSS class `.is-empty`
 
 ### Loading state
 
 ```html
 <table-builder store-data="table-empty">
-    <div slot="loader">
+    <div slot="loading">
         <i class="icon icon-spinner"></i>
         Loading...
     </div>
 </table-builder>
 ```
 
-Also, when the data are loading, the component gets the CSS class `.is-loading`
+Also, when the data are loading, the component receives a CSS class `.is-loading`
 
 
 ### Default slot
@@ -107,7 +107,7 @@ By default, the slot only accepts the [&lt;tb-column&gt;](./tb-column.md) compon
     ]"
     store-data="no-pagination"
 >
-    <!-- Everything, except <tb-column>, will be skipped  -->
+    <!-- Everything, except <tb-column>, will be skipped -->
     <h2>Will not render</h2>
 
     <!-- The content of the transferred data will be displayed by the column name -->

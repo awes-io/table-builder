@@ -12,8 +12,8 @@
         </div>
 
         <!-- loading state -->
-        <div class="int-table__loader" v-if="isLoading">
-            <slot name="loader">
+        <div class="int-table__loading" v-if="isLoading">
+            <slot name="loading">
                 {{ $lang.TABLE_LOADING }}
             </slot>
         </div>
