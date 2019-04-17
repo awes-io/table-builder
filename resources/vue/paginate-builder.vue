@@ -191,6 +191,7 @@ export default {
                     console.log(e);
                 })
                 .finally(() => {
+                    if ( this.isLoading ) this.setLoader({detail: false})
                     AWES.off('core:ajax', this.setLoader)
                 })
         },
