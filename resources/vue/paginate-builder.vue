@@ -182,7 +182,12 @@ export default {
 
         fetchData(params) {
             AWES.on('core:ajax', this.setLoader)
-            AWES.ajax(params, this.url, 'get')
+            // replace [] in the end of param name because of axios double serialization
+            let filtered = {}
+            _.forEach(params, (val, key) => {
+                filtered[key.replace(/\[\]$/, '')] = val
+            });
+            AWES.ajax(filtered, this.url, 'get')
                 .then( res => {
                     this.serverData = res.data
                     this.scrollElement && this.$SmoothScroll(this.scrollElement, this._config.scrollDuration)
