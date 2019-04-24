@@ -1,6 +1,6 @@
 <script>
 
-function getCell(props, option) {
+function getCells(props, option) {
 
     return option.scopedSlots ?
             option.scopedSlots({
@@ -92,7 +92,7 @@ export default {
             return h('td', { 
                 staticClass: [option.className],
                 key: i 
-            }, getCell(props, option))
+            }, getCells(props, option))
         })
 
         //Mobile toggle button

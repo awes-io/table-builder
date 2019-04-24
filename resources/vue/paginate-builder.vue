@@ -1,13 +1,13 @@
 <template>
-    <div class="pager" :class="{'is-loading': isLoading}" v-if="meta && hasData">
+    <div class="pager" v-if="meta">
         <span class="pager__caption">Record {{ meta.from }}-{{ meta.to }} of {{ meta.total }}</span>
 
         <div class="pager__middle" v-if="paginate">
             <div class="pager__links">
                 <a
-                    href=""
-                    class="pager__arr-left"
-                    @click.stop.prevent="setPage(meta.current_page-1)"
+                    :href="getStringified(currentPage - 1)"
+                    class="pager__arr-left awes-spa-ignore"
+                    @click.stop.prevent="setPage(currentPage - 1)"
                 >
                     <i class="icon icon-arrow-left"></i>
                 </a>
@@ -15,9 +15,9 @@
                     <template v-for="(p, i) in paginate">
                         <a  v-if="p"
                             :key="i"
-                            class="btn has-wave"
+                            class="btn has-wave awes-spa-ignore"
                             :href="getStringified(p)"
-                            :class="{ 'active': p === meta.current_page}"
+                            :class="{'active': p === currentPage}"
                             @click.stop.prevent="setPage(p)"
                         >
                             {{ p }}
@@ -27,9 +27,9 @@
                     </template>
                 </div>
                 <a
-                    href=""
-                    class="pager__arr-right"
-                    @click.stop.prevent="setPage(meta.current_page+1)"
+                    :href="getStringified(currentPage + 1)"
+                    class="pager__arr-right awes-spa-ignore"
+                    @click.stop.prevent="setPage(currentPage + 1)"
                 >
                     <i class="icon icon-arrow-right"></i>
                 </a>
@@ -41,9 +41,9 @@
                 <template slot="toggler">
                     <span class="pager__shows-link">{{ meta.per_page }}</span>
                 </template>
-                <cm-query :param="{limit: ''}">10</cm-query>
-                <cm-query :param="{limit: 50}">50</cm-query>
-                <cm-query :param="{limit: 100}">100</cm-query>
+                <cm-query :param="{limit: '', page: ''}">10</cm-query>
+                <cm-query :param="{limit: '50', page: ''}">50</cm-query>
+                <cm-query :param="{limit: '100', page: ''}">100</cm-query>
             </context-menu>
         </div>
     </div>
@@ -59,20 +59,7 @@ export default {
 
     props: {
 
-        default: {
-            type: [Object, Array, Boolean],
-            default: false
-        },
-
-        url: {
-            type: String,
-            required: true
-        },
-
-        storeData: {
-            type: String,
-            required: true
-        },
+        meta: Object,
 
         scrollTo: {
             type: [String, Boolean],
@@ -92,20 +79,11 @@ export default {
 
     computed: {
 
-        meta() {
-            return this.serverData ? this.serverData.meta : false
+        currentPage() {
+            return parseInt( this.$get(this.$route.query, 'page') ) || 1
         },
 
-        hasData() {
-            let d = this.serverData
-            return d && d.data && Array.isArray(d.data) ? d.data.length : Object.keys(d.data).length
-        },
-
-        isLoading() {
-            return this.$store.state[this.storeData + '_loading']
-        },
-
-        paginate: function() {
+        paginate() {
             if ( ! this.meta ) return null;
             let offset = 2;
             //Если выводится одна страница, то нумерацию не показываем
@@ -154,63 +132,7 @@ export default {
     },
 
 
-    watch: {
-
-        // в случае изменения маршрута запрашиваем данные вновь
-        '$route': 'updateData',
-
-        serverData: function () {
-            this.$store.commit('setData', {
-                param: this.storeData,
-                data: this.serverData.data
-            });
-        }
-    },
-
-
     methods: {
-
-        updateData(newParam, oldParam) {
-            if ( oldParam && _.isEqual(oldParam.query, newParam.query) ) return
-            let params = this.$route.query;
-            if ( oldParam && !compare(oldParam.query, newParam.query, ['page']) && params['page'] != 1) {
-                this.setPage(1);
-            } else {
-                this.fetchData(params);
-            }
-        },
-
-        fetchData(params) {
-            AWES.on('core:ajax', this.setLoader)
-            // replace [] in the end of param name because of axios double serialization
-            let filtered = {}
-            _.forEach(params, (val, key) => {
-                filtered[key.replace(/\[\]$/, '')] = val
-            });
-            AWES.ajax(filtered, this.url, 'get')
-                .then( res => {
-                    this.serverData = res.data
-                    this.scrollElement && this.$SmoothScroll(this.scrollElement, this._config.scrollDuration)
-                })
-                .catch( e => {
-                    console.log(e);
-                })
-                .finally(() => {
-                    if ( this.isLoading ) this.setLoader({detail: false})
-                    AWES.off('core:ajax', this.setLoader)
-                })
-        },
-
-        setLoader($event) {
-            this.$store.commit('setData', {
-                param: this.storeData + '_loading',
-                data: $event.detail
-            });
-        },
-
-        update() {
-            this.updateData();
-        },
 
         setPage(page) {
             if (page > 0 && this.meta && page <= this.meta.last_page) {
@@ -219,7 +141,7 @@ export default {
         },
 
         getStringified(page) {
-            return '/?' + AWES.utils.stringifyQuery(Object.assign({}, this.$route.query, {page})) + this.$route.hash
+            return this.$route.path + '?' + AWES.utils.stringifyQuery(Object.assign({}, this.$route.query, {page})) + this.$route.hash
         }
     },
 
@@ -233,7 +155,7 @@ export default {
     created() {
         //Если данные не переданы в компонент, забираем с севера
         if ( this.default === false) {
-            this.updateData();
+            this.updateData(this.$route)
         } else {
             this.serverData = this.default;
         }
