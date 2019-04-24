@@ -1,23 +1,8 @@
 <template>
-    <div class="int-table" :class="{'is-loading': isLoading, 'is-empty': ! tableData && ! isLoading}">
+    <div class="int-table">
 
         <!-- header slot -->
         <slot name="header"></slot>
-
-        <!-- no data -->
-        <div class="int-table__no-data" v-if="! tableData && ! isLoading">
-            <slot name="empty">
-                {{ $lang.TABLE_NO_DATA }}
-            </slot>
-        </div>
-
-        <!-- loading state -->
-        <div class="int-table__loading" v-if="isLoading">
-            <slot name="loading">
-                {{ $lang.TABLE_LOADING }}
-            </slot>
-        </div>
-
 
         <!-- no columns -> show as list -->
         <div :class="listClass"
@@ -121,11 +106,6 @@ export default {
 
     props: {
 
-        storeData: {
-            type: String,
-            required: true
-        },
-
         default: [Array, Object],
 
         listClass: {
@@ -161,12 +141,7 @@ export default {
     computed: {
 
         tableData() {
-            let fromStore = this.$store.state[this.storeData]
-            return fromStore && fromStore.length ? fromStore : false
-        },
-
-        isLoading() {
-            return this.$store.state[this.storeData + '_loading']
+            return Array.isArray(this.default) ? this.default : [this.default]
         },
 
         columns() {
@@ -203,8 +178,9 @@ export default {
         },
 
         hiddenColumnData() {
-            if ( ! this.hiddenOptions || ! this.hiddenOptions.length || ! this.tableData ) return false
+            if ( ! this.hiddenOptions || ! this.hiddenOptions.length ) return false
             return this.tableData.map( row => {
+                if ( ! row ) return 
                 let hiddenData = {}
                 Object.keys(row)
                       .filter( key => this.hiddenOptions.includes(key) )
@@ -240,21 +216,6 @@ export default {
                 this.activeItem = null
             }
         },
-    },
-
-
-    beforeCreate() {
-
-        let dafault = this.$options.propsData.default
-        if ( ! dafault ) return;
-
-        let defaultData = Array.isArray(dafault) ?
-                          dafault.slice() :
-                          [ Object.assign({}, this.$options.propsData.default) ]
-        this.$store.commit('setData', {
-            param: this.$options.propsData.storeData,
-            data: defaultData
-        })
     }
 }
 </script>
