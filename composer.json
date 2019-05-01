@@ -1,8 +1,8 @@
 {
     "name": "awes-io/table-builder",
-    "description": ":description",
+    "description": "A component that allows creating responsive HTML tables or lists from data object",
     "type": "library",
-    "license": "GPL-3.0-only",
+    "license": "MIT",
 	"authors": [
 		{
 			"name": "Awescode GmbH",
@@ -17,10 +17,10 @@
         }
 	],
 	"support": {
-		"email": "support@awescode.de"
+		"email": "contact@awes.io"
 	},
 	"homepage": "https://github.com/awes-io/table-builder",
-	"keywords": ["Laravel", "TableBuilder"],
+	"keywords": ["Laravel", "Table Builder", "table", "table builder", "vue", "vuejs", "awes-io"],
     "require": {
         "illuminate/support": "~5"
     },

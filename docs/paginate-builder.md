@@ -8,24 +8,20 @@
 
 It is a component of dynamic forms. It uses the global `Vuex` store.
 
-When data are downloaded from the server, the component gets the CSS class `.is-loading`.
-
 ## Example of using the component
 
 ```html
-<paginate-builder store-data="table" url="test-data.json"></paginate-builder>
+<paginate-builder :meta="{current_page: 1, from: 1, last_page: 12, path: 'https:\/\/local.awes.io\/example-package', per_page: 15, to: 12, total: 12}"></paginate-builder>
 ```
 
-<paginate-builder store-data="paginate-test" url="/" :default="{data:[1,2,3],meta:{current_page: 1, from: 1, last_page: 12, path: 'https:\/\/local.awes.io\/example-package', per_page: 15, to: 12, total: 12}}"></paginate-builder>
+<paginate-builder :meta="{current_page: 1, from: 1, last_page: 12, path: 'https:\/\/local.awes.io\/example-package', per_page: 15, to: 12, total: 12}"></paginate-builder>
 
 
 ## Component properties
 
 | Name               | Type            | Default           | Description                                  |
 |--------------------|:---------------:|:-----------------:|----------------------------------------------|
-| **store-data (*)** | `String`        | `undefined`       | Data identifier in the store                 |
-| **default**        | `Array, Object` | `undefined`       | Pagination data + data for displaying        |
-| **url (*)**        | `String`        | `undefined`       | Address for data request                     |
+| **meta**           | `Object`        | `undefined`       | Pagination data                              |
 | **scroll-to**      | `String`        | `'body'`          | Element to be scrolled to after you go       |
 
 ### Data format for the pagination
