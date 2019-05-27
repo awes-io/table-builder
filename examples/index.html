@@ -22,78 +22,77 @@
     <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/context-menu/v1.x.x/js/main.js"></script>
 
     <!-- core -->
-    <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/base-js/v1.3.15/js/main.js"></script>
+    <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/base-js/v1.x.x/js/main.js"></script>
 </head>
 <body>
-    <div id="awes-app">
-        <table-builder store-data="table" row-url="http://company.local-awescrm.de:5051/managers/{id}">
+    <content-wrapper store-data="table" url="/test-data.json">
+        <template slot-scope="table">
+            <table-builder :default="table.data" row-url="http://company.local-awescrm.de:5051/managers/{id}">
 
-            <template slot="empty">
-                <p>You do not have projects Want to create the first one?</p>
-            </template>
+                <template slot="empty">
+                    <p>You do not have projects Want to create the first one?</p>
+                </template>
 
-            <template slot="header">
-                <h2 style="padding: 1rem; background-color: lightgray">
-                    Test header block
-                </h2>
-            </template>
+                <template slot="header">
+                    <h2 style="padding: 1rem; background-color: lightgray">
+                        Test header block
+                    </h2>
+                </template>
 
-            <tb-column name="name">
-                <template slot-scope="col">
-                    <div class="ava-text">
-                        <span v-if="col.data.avatar" v-html="col.data.avatar"></span>
-                        <i v-else class="icon icon-user"></i>
+                <tb-column name="name">
+                    <template slot-scope="col">
+                        <div class="ava-text">
+                            <span v-if="col.data.avatar" v-html="col.data.avatar"></span>
+                            <i v-else class="icon icon-user"></i>
+                            <component :is="col.data.active ? 'span' : 'strike'">
+                                {{ $get(col.data, 'profile_manager.full_name') }}
+                            </component>
+                        </div>
+                    </template>
+                </tb-column>
+                <tb-column name="position" sort>
+                    <template slot-scope="col">
+                        {{ col.data.profile_manager.position }}
+                    </template>
+                </tb-column>
+                <tb-column name="phone" class="int-table__nowrap" media="tablet, desktop">
+                    <template slot-scope="col">
+                        <a :href="'tel:' + $get(col.data.phones[0], 'phone_link')">
+                            {{ $get(col.data.phones[0], 'phone_formatted') }}
+                        </a>
+                    </template>
+                </tb-column>
+                <tb-column name="email" sort="mail|mail_down" class="int-table__nowrap" media="desktop">
+                    <template slot-scope="col">
+                        <a :href="'mailto:' + col.data.email">{{ col.data.email }}</a>
+                    </template>
+                </tb-column>
 
-                        <span v-if="col.data.active">{{ $get(col.data, 'profile_manager.full_name') }}</span>
-                        <strike v-else>{{ $get(col.data, 'profile_manager.full_name') }}</strike>
+                <template slot="hidden" slot-scope="h">
+                    <ul>
+                        <li v-if="h.matchedMedia.includes('mobile')">
+                            <strong>{{ h.rowData.profile_manager.position }}</strong>
+                        </li>
+                        <li v-if="h.rowData.phones.length">
+                            <a :href="'tel:' + h.rowData.phones[0].phone_link">
+                                {{ h.rowData.phones[0].phone_formatted }}
+                            </a>
+                        </li>
+                        <li><a :href="'mailto:' + h.data.email">{{ h.data.email }}</a></li>
+                    </ul>
+                </template>
+
+                <template slot="footer">
+                    <div style="padding: 1rem; background-color: lightgray">
+                        Test footer block with <button>no-effect button :)</button>
                     </div>
                 </template>
-            </tb-column>
-            <tb-column name="position">
-                <template slot-scope="col">
-                    {{ col.data.profile_manager.position }}
-                </template>
-            </tb-column>
-            <tb-column name="phone" class="int-table__nowrap" media="tablet, desktop">
-                <template slot-scope="col">
-                    <a :href="'tel:' + $get(col.data.phones[0], 'phone_link')">
-                        {{ $get(col.data.phones[0], 'phone_formatted') }}
-                    </a>
-                </template>
-            </tb-column>
-            <tb-column name="email" class="int-table__nowrap" media="desktop">
-                <template slot-scope="col">
-                    <a :href="'mailto:' + col.data.email">{{ col.data.email }}</a>
-                </template>
-            </tb-column>
+            </table-builder>
 
-            <template slot="hidden" slot-scope="h">
-                <ul>
-                    <li v-if="h.matchedMedia.includes('mobile')">
-                        <strong>{{ h.rowData.profile_manager.position }}</strong>
-                    </li>
-                    <li v-if="h.rowData.phones.length">
-                        <a :href="'tel:' + h.rowData.phones[0].phone_link">
-                            {{ h.rowData.phones[0].phone_formatted }}
-                        </a>
-                    </li>
-                    <li><a :href="'mailto:' + h.data.email">{{ h.data.email }}</a></li>
-                </ul>
-            </template>
-
-            <template slot="footer">
-                <div style="padding: 1rem; background-color: lightgray">
-                    Test footer block with <button>no-effect button :)</button>
-                </div>
-            </template>
-        </table-builder>
-
-        <paginate-builder
-            ref="pb"
-            url="/test-data.json"
-            store-data="table"
-            :default="false"
-        ></paginate-builder>
-    </div>
+            <paginate-builder
+                :meta="table.meta"
+            ></paginate-builder>
+        </template>
+    </content-wrapper>
 </body>
 </html>

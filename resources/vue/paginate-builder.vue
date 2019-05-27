@@ -51,11 +51,13 @@
 
 <script>
 import { compare } from '../js/modules/fp.js'
-import config from '../js/modules/config.js'
+import configMixin from '../js/mixins/config.js'
 
 export default {
 
     name: 'paginate-builder',
+
+    mixins: [ configMixin ],
 
     props: {
 
@@ -143,12 +145,6 @@ export default {
         getStringified(page) {
             return this.$route.path + '?' + AWES.utils.stringifyQuery(Object.assign({}, this.$route.query, {page})) + this.$route.hash
         }
-    },
-
-
-    beforeCreate() {
-        // config
-        this._config = Object.assign(config, _.pick(AWES._config.tableBuilder, Object.keys(config)))
     },
 
 

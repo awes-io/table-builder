@@ -9,7 +9,9 @@ export default {
 
         label: String,
 
-        media: String
+        media: String,
+
+        sort: String
     }
 }
 </script>
