@@ -13,3 +13,5 @@ export const isSet = (val) => {
 export const ucFirst = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+export const trimStr = string => string.trim()

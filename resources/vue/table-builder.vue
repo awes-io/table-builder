@@ -42,7 +42,15 @@
         >
             <thead>
                 <tr>
-                    <th v-for="(name, i) in columnNames" :key="i">{{ name }}</th>
+                    <th v-for="({ label, sort }, i) in columnsHead" :key="i">
+                        <tb-sort-button
+                            v-if="sort"
+                            v-bind="sort"
+                        >
+                            {{ label }}
+                        </tb-sort-button>
+                        <template v-else>{{ label }}</template>
+                    </th>
                     <th v-if="hiddenOptions && hiddenOptions.length"></th>
                 </tr>
             </thead>
@@ -91,17 +99,19 @@
 </template>
 
 <script>
-import { ucFirst } from '../js/modules/fp.js'
-import mediaQueries from '../js/mixins/media-queries.js'
+import { ucFirst, trimStr } from '../js/modules/fp.js'
+import mediaQueriesMixin from '../js/mixins/media-queries.js'
+import configMixin from '../js/mixins/config.js'
 import tbRow from './tb-row.vue'
+import tbSortButton from './tb-sort-button.vue'
 
 export default {
 
     name: 'table-builder',
 
-    mixins: [ mediaQueries ],
+    mixins: [ mediaQueriesMixin, configMixin ],
 
-    components: { tbRow },
+    components: { tbRow, tbSortButton },
 
 
     props: {
@@ -189,13 +199,13 @@ export default {
             })
         },
 
-        columnNames() {
-            return this.shownOptions.map( item => {
-                return ucFirst( typeof item.label !== 'undefined' ?
-                                       item.label :
-                                       item.name )
+        columnsHead() {
+            return this.shownOptions.map( option => {
+                let label = ucFirst( typeof option.label !== 'undefined' ? option.label : option.name )
+                let sort = typeof option.sort === 'string' ? this._getSortParams( option.name, option.sort ) : false
+                return { label, sort }
             })
-        },
+        }
     },
 
 
@@ -216,6 +226,17 @@ export default {
                 this.activeItem = null
             }
         },
+
+        _getSortParams(label, sort) {
+            let asc = this.$get(this._config, 'sort.ascTemplate').replace('%s', label)
+            let desc = this.$get(this._config, 'sort.descTemplate').replace('%s', label)
+            if ( sort !== '' ) {
+                let [_asc, _desc] = sort.split('|').map(trimStr)
+                asc = _asc ? _asc : asc
+                desc = _desc ? _desc : desc
+            }
+            return { asc, desc }
+        }
     }
 }
 </script>
