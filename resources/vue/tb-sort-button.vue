@@ -40,11 +40,11 @@ export default {
     computed: {
 
         currentOrder() {
-            return this.$route.query.orderBy
+            return this.$route.query.orderBy || ''
         },
 
         orderParams() {
-            return [this.asc, this.desc, null]
+            return this.asc && this.desc ? [this.asc, this.desc, null] : [this.asc, this.desc]
         },
 
         isAsc() {

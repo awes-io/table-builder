@@ -228,12 +228,14 @@ export default {
         },
 
         _getSortParams(label, sort) {
+
             let asc = this.$get(this._config, 'sort.ascTemplate').replace('%s', label)
             let desc = this.$get(this._config, 'sort.descTemplate').replace('%s', label)
+
             if ( sort !== '' ) {
                 let [_asc, _desc] = sort.split('|').map(trimStr)
-                asc = _asc ? _asc : asc
-                desc = _desc ? _desc : desc
+                asc = _asc || ''
+                desc = _desc || ''
             }
             return { asc, desc }
         }
