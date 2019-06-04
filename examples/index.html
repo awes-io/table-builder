@@ -57,30 +57,31 @@
                 </tb-column>
                 <tb-column name="phone" class="int-table__nowrap" media="tablet, desktop">
                     <template slot-scope="col">
-                        <a :href="'tel:' + $get(col.data.phones[0], 'phone_link')">
-                            {{ $get(col.data.phones[0], 'phone_formatted') }}
+                        <a v-if="col.data.phones[0]"
+                            :href="'tel:' + $get(col.data.phones[0], 'phone_link')">
+                            {{ $get(col.data, 'phones[0].phone_formatted') }}
                         </a>
                     </template>
                 </tb-column>
-                <tb-column name="email" sort="mail|mail_down" class="int-table__nowrap" media="desktop">
+                <tb-column name="email" sort="mail|mail_down" class="int-table__nowrap" media="tablet, desktop">
                     <template slot-scope="col">
                         <a :href="'mailto:' + col.data.email">{{ col.data.email }}</a>
                     </template>
                 </tb-column>
 
-                <template slot="hidden" slot-scope="h">
+                <!-- <template slot="hidden" slot-scope="h">
                     <ul>
                         <li v-if="h.matchedMedia.includes('mobile')">
-                            <strong>{{ h.rowData.profile_manager.position }}</strong>
+                            <strong>{{ $get( h.data, 'profile_manager.position') }}</strong>
                         </li>
-                        <li v-if="h.rowData.phones.length">
-                            <a :href="'tel:' + h.rowData.phones[0].phone_link">
-                                {{ h.rowData.phones[0].phone_formatted }}
+                        <li v-if="$get(h.data, 'phones', []).length">
+                            <a :href="'tel:' + $get(h.data, 'phones[0].phone_link')">
+                                {{ $get( h.data, 'phones[0].phone_formatted') }}
                             </a>
                         </li>
                         <li><a :href="'mailto:' + h.data.email">{{ h.data.email }}</a></li>
                     </ul>
-                </template>
+                </template> -->
 
                 <template slot="footer">
                     <div style="padding: 1rem; background-color: lightgray">
