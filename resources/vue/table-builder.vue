@@ -36,62 +36,67 @@
 
 
         <!-- table -->
-        <table
-            v-if="tableData && hasColumns"
-            class="int-table__table"
-        >
-            <thead>
-                <tr>
-                    <th v-for="({ label, sort }, i) in columnsHead" :key="i">
-                        <tb-sort-button
-                            v-if="sort"
-                            v-bind="sort"
-                        >
-                            {{ label }}
-                        </tb-sort-button>
-                        <template v-else>{{ label }}</template>
-                    </th>
-                    <th v-if="hiddenOptions && hiddenOptions.length"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <template v-for="(rowData, i) in tableData">
-                    <tb-row
-                        :key="i + '-row'"
-                        :tableOptions="shownOptions"
-                        :data="rowData"
-                        :index="i"
-                        :active="activeItem === i"
-                        :url="rowUrl"
-                        :matchedMedia="matchedMedia"
-                        :showToggler="!!hiddenColumnData"
-                        @setActive="setActiveItem"
-                        @click="rowClick"
-                        ref="tbRows"
-                    ></tb-row>
-                    <tr class="int-table__hidden"
-                        v-if="hiddenColumnData"
-                        v-show="activeItem === i"
-                        :key="i + '-hidden-row'">
-                        <td :colspan="shownOptions.length + 1">
-                            <slot
-                                name="hidden"
-                                :data="rowData"
-                                :hiddenData="hiddenColumnData[i]"
-                                :matchedMedia="matchedMedia"
-                                :index="i"
+        <div class="int-table__overflow">
+            <table
+                v-if="tableData && hasColumns"
+                class="int-table__table"
+            >
+                <thead>
+                    <tr>
+                        <th v-for="({ label, sort }, i) in columnsHead" :key="i">
+                            <tb-sort-button
+                                v-if="sort"
+                                v-bind="sort"
                             >
-                                <ul>
-                                    <li v-for="(option, j) in hiddenColumnData[i]" :key="j + '-hidden'">
-                                        {{ option }}
-                                    </li>
-                                </ul>
-                            </slot>
-                        </td>
-                    </tr>     
-                </template>
-            </tbody>
-        </table>
+                                {{ label }}
+                            </tb-sort-button>
+                            <template v-else>{{ label }}</template>
+                        </th>
+                        <th v-if="hiddenOptions && hiddenOptions.length"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template v-for="(rowData, i) in tableData">
+                        <tb-row
+                            :key="i + '-row'"
+                            :tableOptions="shownOptions"
+                            :data="rowData"
+                            :index="i"
+                            :active="activeItem === i"
+                            :url="rowUrl"
+                            :matchedMedia="matchedMedia"
+                            :showToggler="!!hiddenColumnData"
+                            @setActive="setActiveItem"
+                            @click="rowClick"
+                            ref="tbRows"
+                        ></tb-row>
+                        <tr class="int-table__hidden"
+                            v-if="hiddenColumnData"
+                            v-show="activeItem === i"
+                            :key="i + '-hidden-row'">
+                            <td :colspan="shownOptions.length + 1">
+                                <slot
+                                    name="hidden"
+                                    :data="rowData"
+                                    :hiddenData="hiddenColumnData[i]"
+                                    :matchedMedia="matchedMedia"
+                                    :index="i"
+                                >
+                                    <tb-hidden-items
+                                        :hiddenOptions="hiddenOptions"
+                                        :data="rowData"
+                                        :index="i"
+                                        :active="activeItem === i"
+                                        :matchedMedia="matchedMedia"
+                                    >
+                                    </tb-hidden-items>
+                                </slot>
+                            </td>
+                        </tr>     
+                    </template>
+                </tbody>
+            </table>
+        </div>
 
         <!-- footer slot -->
         <slot name="footer"></slot>
@@ -103,6 +108,7 @@ import { ucFirst, trimStr } from '../js/modules/fp.js'
 import mediaQueriesMixin from '../js/mixins/media-queries.js'
 import configMixin from '../js/mixins/config.js'
 import tbRow from './tb-row.vue'
+import tbHiddenItems from './tb-hidden-items.vue'
 import tbSortButton from './tb-sort-button.vue'
 
 export default {
@@ -111,7 +117,7 @@ export default {
 
     mixins: [ mediaQueriesMixin, configMixin ],
 
-    components: { tbRow, tbSortButton },
+    components: { tbRow, tbHiddenItems, tbSortButton },
 
 
     props: {
@@ -184,7 +190,11 @@ export default {
         hiddenOptions() {
             return this.tableOptions && this.tableOptions.filter( item => {
                 if ( item.media && ! this._checkMediaMatch(item.media) ) return true
-            }).map( item => item.name )
+            })/*.map( item => item.name )*/
+        },
+
+        hiddenOptionsNames() {
+            return this.hiddenOptions && this.hiddenOptions.map( item => item.name )
         },
 
         hiddenColumnData() {
@@ -193,7 +203,7 @@ export default {
                 if ( ! row ) return 
                 let hiddenData = {}
                 Object.keys(row)
-                      .filter( key => this.hiddenOptions.includes(key) )
+                      .filter( key => this.hiddenOptionsNames.includes(key) )
                       .forEach( key => { hiddenData[key] = row[key] })
                 return hiddenData
             })

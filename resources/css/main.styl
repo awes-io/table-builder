@@ -1,7 +1,3 @@
-flex-version = flex
-support-for-ie = false
-vendor-prefixes = official
-
 @keyframes rotate
     from
         transform: none
@@ -10,43 +6,43 @@ vendor-prefixes = official
 
 
 .int-table
-    position: relative
+    // position: relative
 
-    &.is-loading
-        .int-table
-            &__table,
-            &__list,
-            &__no-data
-                opacity: .5
-                user-select: none
-                pointer-events: none
+    // &.is-loading
+    //     .int-table
+    //         &__table,
+    //         &__list,
+    //         &__no-data
+    //             opacity: .5
+    //             user-select: none
+    //             pointer-events: none
 
-    &__loader
-        position: absolute
-        z-index: 2
-        top: 50%
-        left: 50%
-        transform: translate(-50%, -50%)
-        padding: 1rem
-        padding-left: 40px
-        background-color: lightgray
+    // &__loader
+    //     position: absolute
+    //     z-index: 2
+    //     top: 50%
+    //     left: 50%
+    //     transform: translate(-50%, -50%)
+    //     padding: 1rem
+    //     padding-left: 40px
+    //     background-color: lightgray
 
-        &:before
-            content: ''
-            display: block
-            size 20px
-            position: absolute
-            left: 10px
-            top: 50%
-            margin-top: -10px
-            border-left: 2px solid currentColor
-            border-top: 2px solid currentColor
-            border-radius: 50%
-            animation rotate 1s linear infinite
+    //     &:before
+    //         content: ''
+    //         display: block
+    //         size 20px
+    //         position: absolute
+    //         left: 10px
+    //         top: 50%
+    //         margin-top: -10px
+    //         border-left: 2px solid currentColor
+    //         border-top: 2px solid currentColor
+    //         border-radius: 50%
+    //         animation rotate 1s linear infinite
 
 
     &__table
-        width: 100%
+        width 100%
         border-collapse: collapse
 
         thead td,
@@ -57,6 +53,10 @@ vendor-prefixes = official
         tbody td
             padding: .5em
             border-bottom: 1px solid
+        
+        tr:hover
+            background gray
+            color white
 
     &__no-data
         display: flex
@@ -103,6 +103,21 @@ vendor-prefixes = official
 
         &-name
             text-transform: capitalize
+    
+    &__overflow
+        overflow-x auto
+        max-width 100%
+        position relative
+        background:
+            linear-gradient(90deg, white 16px, rgba(255,255,255,0)),
+            linear-gradient(90deg, rgba(255,255,255,0), white 16px) 100% 0,
+            radial-gradient(farthest-side at 0 50%, rgba(0,0,0,.2), rgba(0,0,0,0)),
+            radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)) 100% 0;
+        background-repeat no-repeat
+        background-color white
+        background-size 48px 100%, 48px 100%, 16px 100%, 16px 100%
+        background-attachment local, local, scroll, scroll
+
 
 .pager
     margin-top: 30px
