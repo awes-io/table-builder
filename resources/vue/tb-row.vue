@@ -12,10 +12,6 @@ function getCells(props, option) {
             props.data[option.name]
 }
 
-function getFormattedUrl(props) {
-    return props.url && AWES.utils.urlFromTemplate(props.url, props.data)
-}
-
 /**
  * Checks for click on interactive lement: <a> or <button>
  * to prevent redirect

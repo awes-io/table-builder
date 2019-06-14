@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tb-row matches overall snapshot 1`] = `"<tr class=\\"int-table__block active is-link\\"><td class=\\"some-class-1\\"></td><td class=\\"some-class-2\\"></td><td class=\\"int-table__control-tab\\"><a class=\\"int-table__show\\" href=\\"\\"><i class=\\"icon icon-box-down\\"></i></a></td></tr>"`;

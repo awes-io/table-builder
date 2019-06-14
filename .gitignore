@@ -1,6 +1,7 @@
 vendor
 composer.lock
 /tests/report
+coverage
 
 ##IDEs
 /.idea
