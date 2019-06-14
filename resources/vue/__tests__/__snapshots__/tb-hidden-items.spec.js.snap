@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tb-hidden-items matches overall snapshot 1`] = `"<ul class=\\"int-table__hidden-items\\"><li class=\\"int-table__hidden-item\\"></li></ul>"`;
