@@ -1,6 +1,6 @@
 {
     "name": "table-builder",
-    "version": "1.2.3",
+    "version": "1.3.0",
     "description": "Dynamic tables with pagination and sorting for data visualization",
     "main": "dist/js/main.js",
     "module": "src/js/plugin.js",
@@ -73,6 +73,9 @@
         "vue-template-compiler": "^2.5.21"
     },
     "dependencies": {
+        "lodash.isequal": "^4.5.0",
+        "lodash.omit": "^4.5.0",
+        "lodash.pick": "^4.4.0",
         "vue": "^2.6.10"
     }
 }
