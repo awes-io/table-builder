@@ -1,7 +1,10 @@
+import isEqual from 'lodash.isequal'
+import omit from 'lodash.omit'
+
 export const compare = (obj1, obj2, exclude) => {
-    return _.isEqual(
-        _.omit(obj1, exclude),
-        _.omit(obj2, exclude)
+    return isEqual(
+        omit(obj1, exclude),
+        omit(obj2, exclude)
     );
 };
 

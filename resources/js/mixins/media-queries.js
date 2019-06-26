@@ -45,11 +45,6 @@ export default {
     },
 
 
-    beforeCreate() {
-        this._config = Object.assign(config, _.pick(AWES._config.tableBuilder, Object.keys(config)))
-    },
-
-
     beforeMount() {
         this._mq = {}
         for (let name in this.mediaQueries) {
